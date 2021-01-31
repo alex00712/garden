@@ -1,8 +1,9 @@
 <template>
-  <div id="nav">
+  <!-- <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/admin">Admin</router-link>
-  </div>
+    <router-link to="/products">Products</router-link>
+  </div> -->
   <div class = "container-fluid">
     <router-view/>
   </div>

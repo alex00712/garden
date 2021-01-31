@@ -1,4 +1,4 @@
-interface Product {
+export interface Product {
     id: number;
     name: string;
     price: number;
@@ -25,9 +25,7 @@ export default {
     actions: {
         async fetchPosts(context: any){
             const response = await fetch("./products.json")
-            // const response = await fetch("https://gentle-basin-28241.herokuapp.com/products", {
-            //     credentials: 'include'
-            //   })
+            // const response = await fetch("https://greenisland.herokuapp.com/products")
             const data = await response.json()
             console.log(data)
             context.commit('updateProducts', data.products)

@@ -2,7 +2,7 @@
   <div>
     <Header/>
     <PrevueImages/>
-    <Garden/>
+    <Products number="6" />
   </div>
 </template>
 
@@ -11,14 +11,14 @@ import { defineComponent } from 'vue';
 
 import Header from '@/components/Header.vue'; // @ is an alias to /src
 import PrevueImages from '@/components/PrevueImages.vue'
-import Garden from '@/components/Garden.vue'
+import Products from '@/components/Products.vue'
 
 export default defineComponent({
   name: 'Home',
   components: {
     Header,
     PrevueImages,
-    Garden
+    Products
   },
 });
 </script>
