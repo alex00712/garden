@@ -21,10 +21,10 @@
               <a class="nav-link" href="#about">О нас</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link" href="#">Доставка</a>
+              <a class="nav-link" href="#contacts">Доставка</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Контакты</a>
+              <a class="nav-link" href="#contacts">Контакты</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="tel:+79257516642">+7 925 751 6642</a>

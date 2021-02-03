@@ -217,7 +217,7 @@ export default defineComponent({
         font-size: xx-large;
     }
     .img{
-        width: 150px;
+        max-width: 150px;
         height: 150px;
         object-fit: cover;
     }

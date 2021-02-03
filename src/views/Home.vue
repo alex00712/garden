@@ -5,6 +5,8 @@
     <Products number="8" />
     <About/>
     <Reviews/>
+    <Contacts/>
+    <Footer/>
   </div>
 </template>
 
@@ -16,6 +18,8 @@ import PrevueImages from '@/components/PrevueImages.vue'
 import Products from '@/components/Products.vue'
 import About from '@/components/About.vue'
 import Reviews from '@/components/Reviews.vue'
+import Contacts from '@/components/Contacts.vue'
+import Footer from '@/components/Footer.vue'
 
 export default defineComponent({
   name: 'Home',
@@ -24,7 +28,9 @@ export default defineComponent({
     PrevueImages,
     Products,
     About,
-    Reviews
+    Reviews,
+    Contacts,
+    Footer
   },
 });
 </script>
