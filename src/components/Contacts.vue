@@ -37,7 +37,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue';
-    import ContactsIcons from '@/components/ContactsIcons'
+    import ContactsIcons from '@/components/ContactsIcons.vue'
     export default defineComponent({
         name: 'Contacts',
         components: {

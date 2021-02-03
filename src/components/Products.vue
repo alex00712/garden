@@ -130,9 +130,9 @@
         </div>
 
         <div class="col-12 col-md-9">
-            <div class = "row  " >
+            <div class = "row" >
                 <div v-for="product in notFull" 
-                class="card custom-card col-6 col-md-4 col-lg-3 
+                class="card custom-card col-6 mb-4 col-md-4 col-lg-3 
                         flex-column align-items-center 
                                         justify-content-between" 
                                         :key = "product.id" 
@@ -143,7 +143,8 @@
                             <p>{{product.description}}</p>
                             <p>Цена {{product.price}} р</p>
                         </div>
-                        <button class="btn btn-primary mb-2">В корзину</button>
+                        <button class="btn btn-primary mb-2">Купить <i class="fas fa-dollar-sign"></i></button>
+                        <button class="btn btn-primary mb-2">В корзину <i class="fas fa-shopping-cart"></i></button>
                 </div>
             </div>
         </div>
@@ -217,7 +218,7 @@ export default defineComponent({
         font-size: xx-large;
     }
     .img{
-        max-width: 150px;
+        max-width: 100%;
         height: 150px;
         object-fit: cover;
     }
