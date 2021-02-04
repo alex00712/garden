@@ -5,9 +5,12 @@
         </div>
     </div>
 
-    <div v-if="!number" class = "row">
-        <div class = "col mb-4 mt-4 ml-4 text-left">
-            <button v-on:click = "goTo('/')" type="button" class="btn btn-success"><i class="fas fa-home"></i></button>
+    <div v-if="!number" class = "row justify-content-between">
+        <div class = "col-2 mb-4 mt-4">
+            <button v-on:click = "goTo('/')" type="button" class="btn btn-success"><i class="fas fa-home"></i>ICON</button>
+        </div>
+        <div class = "col-2 mb-4 mt-4">
+            <button v-on:click = "goTo('/cart')" type="button" class="btn btn-success"><i class="fas fa-shopping-cart"></i>ICON</button>
         </div>
     </div>
 
@@ -120,8 +123,8 @@
                 </div>
             </div>
             <div v-if="number" class="row" >
-                <div class = "col" >
-                    <button v-on:click = "goTo('products')" type="button" class="btn btn-success">
+                <div class = "col " >
+                    <button v-on:click = "goTo('products')" type="button" class="btn btn-outline-success mb-4">
                         <i class="fas fa-eye"></i>
                         Посмотреть все
                     </button>
@@ -130,21 +133,20 @@
         </div>
 
         <div class="col-12 col-md-9">
-            <div class = "row" >
+            <div class = "row no-gutters justify-content-around justify-md-content-around" >
                 <div v-for="product in notFull" 
                 class="card custom-card col-6 mb-4 col-md-4 col-lg-3 
-                        flex-column align-items-center 
-                                        justify-content-between" 
+                        flex-column justify-content-between" 
                                         :key = "product.id" 
                 >
-                        <img :src="product.image" class="img" alt="...">
+                        <img :src="product.image"  class="card-img-top img" alt="...">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <p class = "font-weight-bold" >{{product.name}}</p>
-                            <p>{{product.description}}</p>
-                            <p>Цена {{product.price}} р</p>
+                            <p><small>{{product.description}}</small></p>
+                            <p><strong>Цена</strong> {{product.price}} р</p>
                         </div>
-                        <button class="btn btn-primary mb-2">Купить <i class="fas fa-dollar-sign"></i></button>
-                        <button class="btn btn-primary mb-2">В корзину <i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn btn-danger mb-2">Купить <i class="fas fa-dollar-sign"></i></button>
+                        <button @click="setAlert(product.name)" class="btn btn-primary mb-2">В корзину <i class="fas fa-shopping-cart"></i></button>
                 </div>
             </div>
         </div>
@@ -198,9 +200,9 @@ export default defineComponent({
             this.$store.commit("updateFilters", {name: "category", value: e.target.name});
         },
 
-        // searchInput(e: any){
-        //    // TODO
-        // }
+        setAlert(name: string){
+           this.$store.commit("setAlert", {value: `${name} успешно добавлено в корзину`, type: "success"});
+        }
     },
 
     async mounted() {
@@ -220,7 +222,7 @@ export default defineComponent({
     .img{
         max-width: 100%;
         height: 150px;
-        object-fit: cover;
+        object-fit: contain;
     }
     .section{
         text-align: left;
@@ -237,7 +239,7 @@ export default defineComponent({
         cursor: auto;
     }
     .custom-card{
-        min-width: 200px !important;
+        max-width: 200px !important;
         margin: 10px;
     }
 
@@ -249,7 +251,7 @@ export default defineComponent({
             font-size: 12px;
         }
         .custom-card{
-            min-width: 150px !important;
+            
             margin: 0px;
         }
     }

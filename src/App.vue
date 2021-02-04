@@ -1,14 +1,20 @@
 <template>
-  <!-- <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/admin">Admin</router-link>
-    <router-link to="/products">Products</router-link>
-  </div> -->
   <div class = "container-fluid">
+    <Alert/>
     <router-view/>
   </div>
 </template>
 
+<script>
+    import { defineComponent } from 'vue';
+    import Alert from "@/components/Alert.vue"
+    export default defineComponent({
+        name: 'App',
+        components: {
+          Alert,
+        },
+    });
+</script>
 
 <style lang="scss">
 *{
