@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Admin from '../views/Admin.vue'
 import AddingProduct from '../components/AddingProduct.vue'
 import ProductsVuew from "../views/ProductsVuew.vue"
+import AdminDashbord from '../components/AdminDashbord.vue'
 import CartVuew from "../views/CartVuew.vue"
 import store from '../store/index'
 
@@ -33,6 +34,19 @@ const routes: Array<RouteRecordRaw> = [
     path: '/admin/editor/:id', 
     name: 'Editor',
     component: AddingProduct, 
+    props: true,
+    beforeEnter: (to, from, next)=>{
+      if(store.getters.auth.isAuth==false){
+        next({path: '/admin'})
+      }else{
+        next()
+      }
+    }
+  },
+  {
+    path: '/admin/orders', 
+    name: 'AdminDashbord',
+    component: AdminDashbord, 
     props: true,
     beforeEnter: (to, from, next)=>{
       if(store.getters.auth.isAuth==false){

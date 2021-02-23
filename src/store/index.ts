@@ -6,6 +6,7 @@ import card from './modules/cart'
 import auth from './modules/auth'
 import payment from './modules/payment'
 import modalWindow from './modules/moduleWindow'
+import dashBord from './modules/dashbord'
 
 export default createStore({
   modules: {
@@ -15,6 +16,7 @@ export default createStore({
     card,
     auth,
     payment,
-    modalWindow
+    modalWindow,
+    dashBord
   }
 })

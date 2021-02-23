@@ -12,6 +12,12 @@ interface Consts {
     //order
     clientOrder: string;
     connectWithAdmin: string;
+
+    // for Dashbord
+    processingClientOrders: string;
+    newClientOrders: string;
+    executedClientOrders: string;
+
     // storage
     cardName: string;
 
@@ -29,7 +35,12 @@ const consts: Consts = {
     poductById: "https://greenisland.herokuapp.com/product",
     clientOrder: "https://greenisland.herokuapp.com/clientOrder",
     connectWithAdmin: "https://greenisland.herokuapp.com/connectWithAdmin",
-    
+
+    // for Dashbord
+    processingClientOrders: "https://greenisland.herokuapp.com/admin/processingClientOrders",
+    newClientOrders: "https://greenisland.herokuapp.com/admin/newClientOrders",
+    executedClientOrders: "https://greenisland.herokuapp.com/admin/executedClientOrders",
+
     // key for localstorage
     cardName: "gardenCenterCard"
 }
@@ -46,6 +57,9 @@ const consts: Consts = {
 //     poductById: "/product",
 //     clientOrder: "/clientOrder",
 //     connectWithAdmin: "/connectWithAdmin",
+//     processingClientOrders: "/processingClientOrders",
+//     newClientOrders: "/newClientOrders",
+//     executedClientOrders: "/executedClientOrders",       
 //     // key for localstorage
 //     cardName: "gardenCenterCard"
 // }
