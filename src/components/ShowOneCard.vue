@@ -14,7 +14,7 @@
                 <div class="modal-body">
                     <div class = "row align-items-center">
                         <div class = "col-12">
-                            <img class="image" :src="getPayment.product.image" />
+                            <img class="image" :src="imageMaker(getPayment.product.image)" />
                         </div> 
                         <div class = "col-12 mt-4">
                             {{getPayment.product.description}}
@@ -49,6 +49,8 @@
     import { mapGetters } from 'vuex'
     import {Product} from '../store/modules/garden'
     import {PayoadForCount} from '../store/modules/moduleWindow'
+    const urlExp = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/)
+
     export default defineComponent({
         data(){
             return {
@@ -62,8 +64,16 @@
                 const payment = this.$store.getters.isModalOpen
                 return payment
             },
+            
         },
         methods: {
+            imageMaker(image: any){
+                console.log(image)
+                if(urlExp.test(image)){
+                    return image
+                }
+                return URL.createObjectURL(image)
+            },
             closeCard(id?: string){
                 this.$store.dispatch('showWindow', id)
             },

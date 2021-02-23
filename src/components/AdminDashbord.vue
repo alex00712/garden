@@ -25,7 +25,7 @@
                 <a v-for="(item, i) in dashbord.data.newClientOrders" @dragstart="drag" class="parent mb-2 list-group-item list-group-item-action" :key="i" >
                     <div class="d-flex w-100 justify-content-between">
                         <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                        <small @click="changeAction" class="arrow" ><i class="fas fa-arrow-right"></i></small>
+                        <small @click="changeStatus(item.id)" class="arrow" ><i class="fas fa-arrow-right"></i></small>
                     </div>
                     <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
                     <small>Общая стоимость {{item.price}}</small><br/>
@@ -46,8 +46,9 @@
             <!-- <div class="list-group"> -->
                 <a v-for="(item, i) in dashbord.data.processingClientOrders" class="mb-2 list-group-item list-group-item-action" :key="i" >
                     <div class="d-flex w-100 justify-content-between">
+                    <small @click="changeStatus(item.id, 'back')" class="arrow-back" ><i class="fas fa-arrow-left"></i></small>
                     <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                    <small @click="changeAction" class="arrow" ><i class="fas fa-arrow-right"></i></small>
+                    <small @click="changeStatus(item.id, 'forward')" class="arrow" ><i class="fas fa-arrow-right"></i></small>
                     </div>
                     <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
                     <small>Общая стоимость {{item.price}}</small><br/>
@@ -68,8 +69,9 @@
             <!-- <div class="list-group"> -->
                 <a v-for="(item, i) in dashbord.data.executedClientOrders" class="mb-2 list-group-item list-group-item-action" :key="i" >
                     <div class="d-flex w-100 justify-content-between">
+                    <small @click="changeStatus(item.id, 'back')" class="arrow-back" ><i class="fas fa-arrow-left"></i></small>
                     <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                    <small @click="changeAction" class="arrow" ><i class="fas fa-times"></i></small>
+                    <small @click="changeStatus(item.id, 'forward')" class="arrow" ><i class="fas fa-times"></i></small>
                     </div>
                     <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
                     <small>Общая стоимость {{item.price}}</small><br/>
@@ -130,8 +132,9 @@ export default defineComponent({
         goTo(path){
             this.$router.push({path})
         },
-        changeAction(){
-            console.log('change')
+        changeStatus(id, direction){
+            const payload = {id, direction}
+            this.$store.dispatch('changeStatus', payload)
         }
     }
 
@@ -151,6 +154,23 @@ export default defineComponent({
         position: absolute;
         top: 0;
         right: 0;
+        width: 160px;
+        height: 100%;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & i{
+            font-size: 3rem;
+            transition: all .5s;
+        }
+        transition: all .5s;
+    }
+    .arrow-back:hover{
+        background: linear-gradient(0.25turn, #00000059, #d4d4d4d4, #bdbdbd0a);;
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 160px;
         height: 100%;
         z-index: 999;

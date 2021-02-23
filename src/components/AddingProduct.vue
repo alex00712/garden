@@ -35,7 +35,7 @@
                   <input style="display: none" type="file" @change="selectFile" ref="fileInput" />
                   <div class="col-12 d-flex justify-content-center">
                     <div class = "preImage" @click="fileHandler">
-                      <img v-if="newProd.image" :src="newProd.image" alt="img" />
+                      <img v-if="newProd.image" :src="image" alt="img" />
                       <i v-else class="fas fa-image"></i>
                     </div>
                   </div>
@@ -83,10 +83,6 @@
 <script>
 import consts from '@/consts/consts'
 import { defineComponent } from 'vue';
-import defaultImage from '../assets/error.png'
-import { mapGetters } from 'vuex';
-// import mitt from 'mitt'
-// export const emitter = mitt()
 import vSelect from '../../node_modules/vue-select/src/index.js';
 import isAmptyObj from '../utils/isAmptyObj'
 const urlExp = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/)
@@ -126,6 +122,12 @@ export default defineComponent({
   computed: {
     isButtonDisable(){
       return (this.errors.isNameError || this.errors.isDescriptionError || this.errors.isPriceError || this.errors.isImageError || !!this.errors.category) ? true : false ;
+    },
+    image(){
+      if(urlExp.test(this.newProd.image)){
+        return this.newProd.image
+      }
+      return URL.createObjectURL(this.newProd.image)
     }
   },
 
@@ -143,9 +145,8 @@ export default defineComponent({
     },
     selectFile(e){
       console.log('selectFile', e.target.files)
-      // console.log('PrevueImage', this.$refs.PrevueImage)
-      // this.$refs.PrevueImage.src = URL.createObjectURL(e.target.files[0])
-      this.newProd.image = URL.createObjectURL(e.target.files[0])
+      this.newProd.image = e.target.files[0]
+      console.log(this.newProd)
     },
     goTo(path){
       this.$router.push({path})

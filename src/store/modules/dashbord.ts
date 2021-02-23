@@ -45,6 +45,72 @@ export default {
     },
 
     actions: {
+        async changeStatus(context: any, payload: {id: string; direction: string}){
+            const {id, direction} = payload
+            console.log(id)
+            const what: Array<any> = []
+            what.push(context.state.data.executedClientOrders.find((el: any)=>el.id===id))
+            what.push(context.state.data.newClientOrders.find((el: any)=>el.id===id))
+            what.push(context.state.data.processingClientOrders.find((el: any)=>el.id===id))
+
+            const Exist = what.find((el: any)=>el!==undefined)
+            let newStatus = ''
+
+            if(Exist && direction==="forward"){
+                // if(Exist.status === "")
+                switch (Exist.status) {
+                    case "NEW":
+                        newStatus = "PROCESSING"
+                        break;
+                    case "PROCESSING":
+                        newStatus = "EXECUTED"
+                        break;
+                    case "EXECUTED":
+                        newStatus = "EXECUTED" // TODO
+                        break; 
+                    default:
+                        return;
+                }
+            }
+            else if(Exist && direction==="back"){
+                switch (Exist.status) {
+                    case "NEW":
+                        newStatus = "NEW"
+                        break;
+                    case "PROCESSING":
+                        newStatus = "NEW"
+                        break;
+                    case "EXECUTED":
+                        newStatus = "PROCESSING" // TODO
+                        break; 
+                    default:
+                        return;
+                }
+            }else{
+                return;
+            }
+
+            try {
+                const response = await fetch(consts.changeStatus, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id: id, status: newStatus})
+                })
+                if(response.ok){
+                    const data = await response.json();
+                    console.log('good', data)
+                    context.dispatch('loadDashBord')
+                  }else{
+                    throw response
+                  } 
+                } catch (error) {
+                    console.log(error)
+                    context.commit("setAlert", {value: `Не могу обновить`, type: "danger"});
+                }
+            
+        },
         async loadDashBord(context: any){
             try {
                 const response = await fetch(consts.newClientOrders)

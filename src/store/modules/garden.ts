@@ -93,12 +93,15 @@ export default {
         async addPost(context: any, product: Product){
             console.log(product)
             const fd = new FormData()
+            console.log(product)
+
             fd.append("name", product.name)
             fd.append("image", product.image)
             fd.append("price", product.price.toString())
-            fd.append("family", product.family)
+            fd.append("family", JSON.stringify(product.family))
             fd.append("description", product.description)
-            fd.append("category", product.category)
+            fd.append("category", JSON.stringify(product.category))
+
             try {
                 console.log(Consts.deleteProduct)
                 const response = await fetch(Consts.deleteProduct, {
