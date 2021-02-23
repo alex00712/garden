@@ -10,14 +10,22 @@
     <!-- <pre>
         {{dashbord.data.executedClientOrders}} 
     </pre> -->
-    <div class="row">
-        <div class="col-12 col-xl-4" >
+
+    <div v-if="isFetching" style="margin-top: 100px" class="d-flex justify-content-center">
+        <div style="width: 3rem; height: 3rem;" class="spinner-border text-success mt-8" role="status">
+            <span class="sr-only">Загрузка...</span>
+        </div>
+    </div>
+
+    <div v-else class="row">
+        <div class="col-12 col-md-6 col-xl-4 new" >
             <h3>Новые</h3>
-            <div class="list-group">
-                <a v-for="(item, i) in dashbord.data.newClientOrders" class="list-group-item list-group-item-action" :key="i" >
+            <transition-group name="flip-list" class="list-group" tag="div">
+            <!-- <div > -->
+                <a v-for="(item, i) in dashbord.data.newClientOrders" @dragstart="drag" class="parent mb-2 list-group-item list-group-item-action" :key="i" >
                     <div class="d-flex w-100 justify-content-between">
-                    <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                    <small><i class="fas fa-arrow-right"></i></small>
+                        <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
+                        <small @click="changeAction" class="arrow" ><i class="fas fa-arrow-right"></i></small>
                     </div>
                     <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
                     <small>Общая стоимость {{item.price}}</small><br/>
@@ -29,47 +37,52 @@
                         </li>
                     </ul>
                 </a>
-            </div>
+            <!-- </div> -->
+            </transition-group>
         </div>
-        <div class="col-12 col-xl-4" >
+        <div class="col-12 col-md-6 col-xl-4 now" >
             <h3>В обработке</h3>
-            <div class="list-group">
-                <a v-for="(item, i) in dashbord.data.processingClientOrders" class="list-group-item list-group-item-action" :key="i" >
+            <transition-group name="flip-list" class="list-group" tag="div">
+            <!-- <div class="list-group"> -->
+                <a v-for="(item, i) in dashbord.data.processingClientOrders" class="mb-2 list-group-item list-group-item-action" :key="i" >
                     <div class="d-flex w-100 justify-content-between">
                     <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                    <small><i class="fas fa-arrow-right"></i></small>
+                    <small @click="changeAction" class="arrow" ><i class="fas fa-arrow-right"></i></small>
                     </div>
                     <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
                     <small>Общая стоимость {{item.price}}</small><br/>
                     <small>Товары: </small>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group">
                         <li v-for="(itemO, i) in item.productList" class="list-group-item" :key="i">
                             <p>{{itemO.product.name}}</p>
                             <p>{{itemO.product.price}} Р - {{itemO.count}} ед</p>
                         </li>
                     </ul>
                 </a>
-            </div>
+            <!-- </div> -->
+            </transition-group>
         </div>
-        <div class="col-12 col-xl-4" >
+        <div class="col-12 col-md-6 col-xl-4 done" >
             <h3>Завершенные</h3>
-            <div class="list-group">
-                <a v-for="(item, i) in dashbord.data.executedClientOrders" class="list-group-item list-group-item-action" :key="i" >
+            <transition-group name="flip-list" class="list-group" tag="div">
+            <!-- <div class="list-group"> -->
+                <a v-for="(item, i) in dashbord.data.executedClientOrders" class="mb-2 list-group-item list-group-item-action" :key="i" >
                     <div class="d-flex w-100 justify-content-between">
                     <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                    <small><i class="fas fa-arrow-right"></i></small>
+                    <small @click="changeAction" class="arrow" ><i class="fas fa-times"></i></small>
                     </div>
                     <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
                     <small>Общая стоимость {{item.price}}</small><br/>
                     <small>Товары: </small>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group">
                         <li v-for="(itemO, i) in item.productList" class="list-group-item" :key="i">
                             <p>{{itemO.product.name}}</p>
                             <p>{{itemO.product.price}} Р - {{itemO.count}} ед</p>
                         </li>
                     </ul>
                 </a>
-            </div>
+            <!-- </div> -->
+            </transition-group>
         </div>
     </div>
 </template>
@@ -101,6 +114,11 @@ export default defineComponent({
         dashbord(){
             console.log(this.$store.getters.getDashBord)
             return this.$store.getters.getDashBord
+        },
+        isFetching(){
+            const isFetching = this.$store.getters.getDashBord
+            return isFetching.executedClientOrders || isFetching.newClientOrders || isFetching.processingClientOrders
+            
         }
     },
 
@@ -111,14 +129,65 @@ export default defineComponent({
     methods: {
         goTo(path){
             this.$router.push({path})
+        },
+        changeAction(){
+            console.log('change')
         }
     }
 
     });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
+    p{
+        margin-bottom: 0
+    }
+    .parent{
+        position: relative
+    }
+    .arrow:hover{
+        background: linear-gradient(0.25turn, #bdbdbd0a, #d4d4d4d4, #00000059);;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 160px;
+        height: 100%;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & i{
+            font-size: 3rem;
+            transition: all .5s;
+        }
+        transition: all .5s;
+    }
+    .new{
+        background-color: #99b1e2;
+    }
 
-  
+    .now{
+        background-color: #ff00408c;
+    }
+
+    .done{
+        background-color: #0d9a0099;
+    }
+
+    .flip-list-item {
+        transition: all 0.8s ease;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .flip-list-enter-from,
+    .flip-list-leave-to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .flip-list-leave-active {
+        position: absolute;
+    } 
 </style>

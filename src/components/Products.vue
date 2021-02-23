@@ -1,5 +1,5 @@
 <template>
-    <div v-if="number" class = "row">
+    <div v-if="isAdmin" class = "row">
         <div class = "col" >
             <h3  class = "head-line">Садовые растения, семена, цветы <br/> и многое другое, что делает этот <br/> мир лучше!</h3>
         </div>
@@ -191,7 +191,7 @@
                                 <a class="page-link" tabindex="-1" aria-disabled="true">Предыдущая</a>
                                  </li> -->
                                     
-                                <li v-for="i in notFull.amuuntOfCeilPagination" class="page-item m-2" :key="i">
+                                <li v-for="i in notFull.amuuntOfCeilPagination" :class="{'active': i===paginationNamber}" class="page-item m-2" :key="i">
                                     <a @click="setPaginationNumber(i)" class="page-link" >{{i}}</a>
                                 </li>
 
@@ -238,7 +238,9 @@ export default defineComponent({
     name: 'Garden',
     computed: {
         ...mapGetters(['allProducts', 'allFilters', 'allMyCard', 'isProductsAreFetching']),
-
+        isAdmin(){
+            return !/admin/.test(window.location.pathname)
+        },
         notFull(){
 
             const filters = this.$store.getters.allFilters
@@ -270,7 +272,6 @@ export default defineComponent({
                 }
             }
             
-
         },
 
         isInMyCard(isId: string){

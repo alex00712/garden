@@ -5,7 +5,7 @@
                 <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Оформление заказа</h5>
+                    <h5 class="modal-title"><strong>{{getPayment.product.name}}</strong></h5>
                     <button type="button" class="close" @click="closeCard" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -13,17 +13,14 @@
 
                 <div class="modal-body">
                     <div class = "row align-items-center">
-                        <div class = "col-12 col-md-6">
+                        <div class = "col-12">
                             <img class="image" :src="getPayment.product.image" />
-                        </div>
-                        <div col = "col-12 col-md-6 text-center" >
-                            <strong>{{getPayment.product.name}}</strong>
-                        </div>
+                        </div> 
                         <div class = "col-12 mt-4">
                             {{getPayment.product.description}}
                         </div>
                         <div class = "col-12 mt-4">
-                            Цена: {{getPayment.product.price}} рублей
+                            <strong>Цена: {{getPayment.product.price}} рублей</strong>
                         </div>
                     </div>
 
@@ -31,10 +28,10 @@
                         <div class="col-12">
                             <div class="row justify-content-between">
                                 <div class="col-4">
-                                    <button @click="changeCard(-1)" class="btn btn-outline-success" type="button"><i class="fas fa-backward"></i></button>
+                                    <button @click="changeCard(-1)" class="btn btn-outline-success" type="button"><i class="fas fa-arrow-left"></i></button>
                                 </div>
                                 <div class="col-4">
-                                    <button @click="changeCard(1)" class="btn btn-outline-success" type="button"><i class="fas fa-forward"></i></button>
+                                    <button @click="changeCard(1)" class="btn btn-outline-success" type="button"><i class="fas fa-arrow-right"></i></button>
                                 </div>
                             </div>
                         </div>

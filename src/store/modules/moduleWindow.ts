@@ -43,6 +43,8 @@ export default {
 
                 context.state.element +=n
 
+                console.log(context.state.element)
+
                 if(mas[context.state.element] !== undefined){
                     context.state.product = mas[context.state.element]
                 }
@@ -51,7 +53,7 @@ export default {
                     context.state.product = mas[0]
                 }
                 else if(mas[context.state.element] === undefined && n<0){
-                    context.state.element = 0
+                    context.state.element = 15
                     context.state.product = mas[mas.length-1]
                 }
 
