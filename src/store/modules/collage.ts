@@ -24,16 +24,16 @@ export default {
 
     actions: {
         async fetchCollage(context: any){
-            const response = await fetch("https://greenisland.herokuapp.com/collage")
+            const response = await fetch("/collage")
             const data = await response.json()
-            console.log(data)
+            console.log("collage", data)
             context.commit('updateCollage', data[0])
         }
     },
 
     getters: {
       allCollage(state: Collage){
-          console.log(state)
+        //   console.log(state)
           return state;
       }
     },

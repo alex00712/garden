@@ -11,9 +11,9 @@ export interface ActionPayload {
 
 export default {
     state: {
-        isAlert: true,
-        value: "11111111",
-        type: "success"
+        isAlert: false,
+        value: "",
+        type: ""
     } as Alert,
 
     mutations: {

@@ -3,9 +3,9 @@
       <div class = "col" >
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-      <a class="navbar-brand text-left" href="#">
-        <div class = "navbar-brand__main-title" >Садовый центр</div>
-        <div class = "navbar-brand__sub-title">Зеленый остров</div>
+      <a class="navbar-brand text-left" href="/">
+        <div class = "navbar-brand__main-title"  >Садовый центр</div>
+        <div class = "navbar-brand__sub-title" >Зеленый остров</div>
       </a>
 
         <button v-on:click = "isShowHandlew" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,16 +15,21 @@
         <div v-bind:class = "{'show': isMenuOpen}" class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#catalog">Каталог<span class="sr-only">(current)</span></a>
+              <a v-if="catalog" class="nav-link" @click="goTo(catalog)">Каталог<span class="sr-only">(current)</span></a>
+              <a v-else class="nav-link" href="#about">Каталог</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#about">О нас</a>
+              <a v-if="about" class="nav-link" @click="goTo(about)">О нас</a>
+              <a v-else class="nav-link" href="#about">О нас</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link" href="#contacts">Доставка</a>
+              <a v-if="contacts" class="nav-link" @click="goTo(contacts)">Доставка</a>
+              <a v-else class="nav-link" href="#contacts">Доставка</a>
+              <!-- <router-link class="nav-link" href="#contacts">Доставка</router-link> -->
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#contacts">Контакты</a>
+              <a v-if="contacts" class="nav-link" @click="goTo(contacts)">Контакты</a>
+              <a v-else class="nav-link" href="#contacts">Контакты</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="tel:+79257516642">+7 925 751 6642</a>
@@ -46,6 +51,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  props: ['contacts', 'about', 'catalog'],
   name: 'Header',
   data(){
     return {
@@ -56,7 +62,11 @@ export default defineComponent({
     isShowHandlew(){
       console.log("click")
       this.isMenuOpen = this.isMenuOpen === false ? true : false
-    }
+    },
+    goTo(path: string){
+      console.log(path)
+      this.$router.push({path})
+    },
   },
 
 });

@@ -44,14 +44,19 @@ export default defineComponent({
 });
 </script>
 
-<style lang="css" >
+<style lang="scss" >
     .back-image{
         background: url(https://thumb.tildacdn.com/tild3761-6331-4030-b964-333964653033/-/format/webp/IS_39540944_Kritchan.jpg) no-repeat;
+        background-size: 100% 100%;
         height: 500px;
         position: relative;
         overflow-y: scroll;
         overflow-x: hidden;
+        & h1{
+            padding-top: 30px;
+        }
     }
+
     .review{
         position: absolute;
         top: 10px;

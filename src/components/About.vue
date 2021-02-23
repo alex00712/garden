@@ -36,8 +36,10 @@
         width: 100%;
     }
     .custom-padding{
-        padding-top: 180px;
-        padding-bottom: 180px;
+        padding-top: 30px;      
+        padding-bottom: 30px;  
+        margin-top: 30px;
+        background-color: #efefef;
     }
     .about{
         &__line{

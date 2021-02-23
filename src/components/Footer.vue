@@ -6,7 +6,19 @@
                 Садовый центр<br>
                 Зеленый остров
             </a>
-            <div class = "about__icons">ICONS :: TODO</div>    
+            <div class = "about__icons">
+                <a href="https://www.facebook.com" class="about__icons-link">
+                    <i class="fab fa-facebook"></i>
+                </a>
+
+                <a href="https://www.instagram.com" class="about__icons-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+                <a href="https://twitter.com" class="about__icons-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>    
             <div class = "about__provs" >© 2021 Зеленый остров</div>
         </div>
 
@@ -31,15 +43,14 @@
 <style lang="scss">
     .footer{
         background-color: #111111;
-        padding-top: 75px;
-        padding-bottom: 90px;
+        padding-top: 20px;
     }
 
     .about{
         margin-bottom: 40px;
         &__icon{
             color: #ffffff;
-            font-size: 14px;
+            font-size: 18px;
             text-decoration: none;
             font-weight: 600;
             &:hover{
@@ -49,11 +60,17 @@
         }
         &__icons{
             margin-top: 30px;
+            &-link{
+                margin-right: 20px;
+                & i{
+                    color: white
+                }
+            }
         }
         &__provs{
             color: #525252;
             margin-top: 21px;
-            font-size: 12px; 
+            font-size: 14px; 
             font-weight: 300;
         }
     }
@@ -63,13 +80,13 @@
         &__header{
             color: #525252;
             margin-bottom: 14px;
-            font-size: 14px;
+            font-size: 18px;
             font-weight: 600;
         }
         &__content{
             margin-bottom: 10px;
             color: #ffffff;
-            font-size: 12px;
+            font-size: 14px;
         }
     }
 </style>

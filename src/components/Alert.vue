@@ -1,10 +1,12 @@
 <template>
-    <div v-if="alert.isAlert" :class="type" role="alert">
-        {{alert.value}}
-        <button type="button" @click = "hideAlert" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+    <transition name="slide">
+        <div v-if="alert.isAlert" :class="type" role="alert" key="alert">
+            {{alert.value}}
+            <button type="button" @click = "hideAlert" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -31,6 +33,19 @@
     .c-alert{
         position: fixed !important;
         top: 125px;
+        left: 10px;
         z-index: 999;
     }
+    
+    .slide-leave-active,
+    .slide-enter-active {
+        transition: 1s;
+    }
+    .slide-enter-from, .slide-leave-to {
+        transform: translate(-100%, 0);
+        opacity: 0;
+    }
+
+    
+
 </style>

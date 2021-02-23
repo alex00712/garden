@@ -21,34 +21,115 @@
         <div class = "col-12 col-md-6 text-left feedback">
             <form class = "feedback__form">
                 <div class="form-group feedback__form-mail">
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Ваш E-mail">
+                    <input v-model="email" @input="inputChangeHandler" name="email" :class="{'is-invalid': isEmailError}" type="email" class="form-control" id="exampleFormControlInput1" placeholder="Ваш E-mail">
+                    <div v-if="isEmailError" class="invalid-feedback">неверный e-mail</div> 
                 </div>
                 <div class="form-group feedback__form-name">
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Ваше имя">
+                    <input v-model="name" @input="inputChangeHandler" name="name" :class="{'is-invalid': isNameError}" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Ваше имя">
+                    <div v-if="isNameError" class="invalid-feedback">неверный e-mail</div> 
                 </div>
                 <div class="form-group feedback__form-text">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Текст сообщения"></textarea>
+                    <textarea v-model="text" @input="inputChangeHandler" name="text" :class="{'is-invalid': isTextError}" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Текст сообщения"></textarea>
+                    <div v-if="isTextError" class="invalid-feedback">неверный e-mail</div>
                 </div>
-                <button class="btn btn-success" type="button">Связаться</button>
+                <button @click="sendMessage" class="btn btn-success" type="button">Связаться</button>
             </form>
         </div>
     </div>
 </template>
 
-<script lang="ts">
+<script>
     import { defineComponent } from 'vue';
     import ContactsIcons from '@/components/ContactsIcons.vue'
+    import Consts from '../consts/consts'
+
+    const emailReg  = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+
     export default defineComponent({
+        data(){
+            return {
+                email: "",
+                name: "",
+                text: "",
+                isNameError: false,
+                isEmailError: false,
+                isTextError: false
+            }
+        },
         name: 'Contacts',
         components: {
             ContactsIcons
+        },
+        methods: {
+            inputChangeHandler(e){
+                const {name, value} = e.target
+                if(this.validateInput(name, value)){
+                    this.$data[name] = value
+                }
+            },
+            validateInput(name, value){
+                switch(name){
+                    case 'name':
+                        if(value.length === 0){
+                            this.isNameError = true
+                            return false
+                        }
+                        this.isNameError = false
+                        return true
+                
+                    case 'email':
+                        console.log(emailReg.test(value))
+                        if(!emailReg.test(value.toLowerCase())){
+                            this.isEmailError = true
+                            return false
+                        }
+                        this.isEmailError = false
+                        return true
+
+                    case 'text': 
+                        if(value.length === 0){
+                            this.isTextError = true
+                            return false
+                        }
+                        this.isTextError = false
+                        return true
+                        
+                    default: return true
+                }
+            },
+            async sendMessage(e){
+                e.preventDefault();
+                const {email, name, text} = this.$data
+                if(email || name || text){
+                    try {
+                        const response = await fetch(Consts.connectWithAdmin, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({mail: email, clientName: name, messageText: text})
+                        })      
+                        if(response.ok){
+                            this.$store.commit("setAlert", {value: `Отправлено`, type: "success"});
+                            this.$data.name = ""
+                            this.$data.email = ""
+                            this.$data.text = ""
+                        }else{
+                            throw response
+                        }            
+                    } catch (error) {
+                        this.$store.commit("setAlert", {value: `Сервер временно недоступен`, type: "danger"});
+                        console.log(error)
+                    }
+
+                }
+            }
         }
     });
 </script>
 
 <style lang="scss">
     .main{
-        padding-top: 180px;
         padding-bottom: 180px;
 
         &__hreader{
@@ -103,6 +184,10 @@
                 padding-right: 60px;
             }
         }
+    }
+    #contacts{
+        padding-top: 180px;
+        padding-bottom: 180px;
     }
 
 </style>
