@@ -25,7 +25,7 @@
                 <a v-for="(item, i) in dashbord.data.newClientOrders" @dragstart="drag" class="parent mb-2 list-group-item list-group-item-action" :key="i" >
                     <div class="d-flex w-100 justify-content-between">
                         <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                        <small @click="changeStatus(item.id)" class="arrow" ><i class="fas fa-arrow-right"></i></small>
+                        <small @click="changeStatus(item.id, 'forward')" class="arrow" ><i class="fas fa-arrow-right"></i></small>
                     </div>
                     <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
                     <small>Общая стоимость {{item.price}}</small><br/>
