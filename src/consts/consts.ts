@@ -1,6 +1,7 @@
 interface Consts {
     collage: string;
     products: string;
+    productsAll: string;
     login: string;
 
     //redact
@@ -28,7 +29,10 @@ interface Consts {
 
 const consts: Consts = {
     collage: "https://greenisland.herokuapp.com/collage",
+
     products: "https://greenisland.herokuapp.com/products",
+    productsAll: "https://greenisland.herokuapp.com/admin/products",
+
     login: "https://greenisland.herokuapp.com/login",
     category: "https://greenisland.herokuapp.com/category",
     family: "https://greenisland.herokuapp.com/family",
@@ -54,6 +58,7 @@ const consts: Consts = {
 // const consts: Consts = {
 //     collage: "/collage",
 //     products: "/products",
+//     productsAll: "/admin/products",
 //     login: "/login",
 //     category: "/category",
 //     family: "/family",

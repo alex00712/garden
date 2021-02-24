@@ -61,7 +61,11 @@ export default {
             context.commit('changeFetchingStatus', true)  
             console.log(context)
             // const response = await fetch("./products.json")
-            const response = await fetch(Consts.products)
+            let url = Consts.products
+            if(/admin/.test(window.location.pathname)){
+                url = Consts.productsAll
+            }
+            const response = await fetch(url)
             const data = await response.json()
             console.log("products", data)
             context.commit('updateProducts', data)
@@ -155,11 +159,11 @@ export default {
         isProductsAreFetching(state: Products){
             return state.isFetching
         },
-      allProducts(state: Products){
-          return state.products;
+        allProducts(state: Products){
+            return state.products;
         },
-      allFilters(state: Products){
-        return state.filters;
+        allFilters(state: Products){
+            return state.filters;
         },
         getProductById: (state: Products) => (id: string) => state.products.find((el: Product)=>el.id === id)
     },
