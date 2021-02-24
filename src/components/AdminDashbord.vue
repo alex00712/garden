@@ -17,25 +17,13 @@
         </div>
     </div>
 
-    <div v-else class="row">
+    <div v-else class="row" style="height: 100vh">
         <div class="col-12 col-md-6 col-xl-4 new" >
             <h3>Новые</h3>
             <transition-group name="flip-list" class="list-group" tag="div">
             <!-- <div > -->
-                <a v-for="(item, i) in dashbord.data.newClientOrders" @dragstart="drag" class="parent mb-2 list-group-item list-group-item-action" :key="i" >
-                    <div class="d-flex w-100 justify-content-between">
-                        <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                        <small @click="changeStatus(item.id, 'forward')" class="arrow" ><i class="fas fa-arrow-right"></i></small>
-                    </div>
-                    <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
-                    <small>Общая стоимость {{item.price}}</small><br/>
-                    <small>Товары: </small>
-                    <ul class="list-group">
-                        <li v-for="(itemO, i) in item.productList" class="list-group-item" :key="i">
-                            <p>{{itemO.product.name}}</p>
-                            <p>{{itemO.product.price}} Р - {{itemO.count}} ед</p>
-                        </li>
-                    </ul>
+                <a v-for="item in dashbord.data.newClientOrders" @dragstart="drag" class="parent mb-2 list-group-item list-group-item-action" :key="item.id" >
+                    <AdminItemOfDashbord :item="item" :first="1" @change-status="changeStatus($event)"/>
                 </a>
             <!-- </div> -->
             </transition-group>
@@ -44,21 +32,8 @@
             <h3>В обработке</h3>
             <transition-group name="flip-list" class="list-group" tag="div">
             <!-- <div class="list-group"> -->
-                <a v-for="(item, i) in dashbord.data.processingClientOrders" class="mb-2 list-group-item list-group-item-action" :key="i" >
-                    <div class="d-flex w-100 justify-content-between">
-                    <small @click="changeStatus(item.id, 'back')" class="arrow-back" ><i class="fas fa-arrow-left"></i></small>
-                    <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                    <small @click="changeStatus(item.id, 'forward')" class="arrow" ><i class="fas fa-arrow-right"></i></small>
-                    </div>
-                    <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
-                    <small>Общая стоимость {{item.price}}</small><br/>
-                    <small>Товары: </small>
-                    <ul class="list-group">
-                        <li v-for="(itemO, i) in item.productList" class="list-group-item" :key="i">
-                            <p>{{itemO.product.name}}</p>
-                            <p>{{itemO.product.price}} Р - {{itemO.count}} ед</p>
-                        </li>
-                    </ul>
+                <a v-for="item in dashbord.data.processingClientOrders" class="mb-2 list-group-item list-group-item-action" :key="item.id" >
+                    <AdminItemOfDashbord :item="item" @change-status="changeStatus($event)"/>
                 </a>
             <!-- </div> -->
             </transition-group>
@@ -67,21 +42,8 @@
             <h3>Завершенные</h3>
             <transition-group name="flip-list" class="list-group" tag="div">
             <!-- <div class="list-group"> -->
-                <a v-for="(item, i) in dashbord.data.executedClientOrders" class="mb-2 list-group-item list-group-item-action" :key="i" >
-                    <div class="d-flex w-100 justify-content-between">
-                    <small @click="changeStatus(item.id, 'back')" class="arrow-back" ><i class="fas fa-arrow-left"></i></small>
-                    <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
-                    <small @click="changeStatus(item.id, 'forward')" class="arrow" ><i class="fas fa-times"></i></small>
-                    </div>
-                    <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
-                    <small>Общая стоимость {{item.price}}</small><br/>
-                    <small>Товары: </small>
-                    <ul class="list-group">
-                        <li v-for="(itemO, i) in item.productList" class="list-group-item" :key="i">
-                            <p>{{itemO.product.name}}</p>
-                            <p>{{itemO.product.price}} Р - {{itemO.count}} ед</p>
-                        </li>
-                    </ul>
+                <a v-for="item in dashbord.data.executedClientOrders" class="mb-2 list-group-item list-group-item-action" :key="item.id" >
+                    <AdminItemOfDashbord :item="item" :last="1" @change-status="changeStatus($event)"/>
                 </a>
             <!-- </div> -->
             </transition-group>
@@ -93,6 +55,7 @@
 import consts from '@/consts/consts'
 import { mapGetters } from 'vuex';
 import { defineComponent } from 'vue';
+import AdminItemOfDashbord from '@/components/AdminItemOfDashbord.vue'
 
 export default defineComponent({
     props: {
@@ -100,7 +63,7 @@ export default defineComponent({
     },
 
     components: {
-            
+        AdminItemOfDashbord
     },
 
     name: 'AdminDashbord',
@@ -132,8 +95,8 @@ export default defineComponent({
         goTo(path){
             this.$router.push({path})
         },
-        changeStatus(id, direction){
-            const payload = {id, direction}
+        changeStatus(e){
+            const payload = {id: e.id, direction: e.direction}
             this.$store.dispatch('changeStatus', payload)
         }
     }
@@ -195,7 +158,7 @@ export default defineComponent({
         background-color: #0d9a0099;
     }
 
-    .flip-list-item {
+    .flip-list {
         transition: all 0.8s ease;
         display: inline-block;
         margin-right: 10px;
@@ -204,7 +167,8 @@ export default defineComponent({
     .flip-list-enter-from,
     .flip-list-leave-to {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateX(30px);
+        // transform: scale(.4);
     }
 
     .flip-list-leave-active {

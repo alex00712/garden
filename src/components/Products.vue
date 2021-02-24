@@ -17,7 +17,7 @@
     <div class = "row" id = "catalog">
         <div class = "col-12 col-md-9 offset-md-3 col-lg-10 offset-lg-2">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" name = "search" @input="setFilters" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
+                <input v-model="allFilters.search" type="text" class="form-control" name = "search" @input="setFilters" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
                     <!-- <div class="input-group-append">
                         <button class="btn btn-outline-info" type="button"><i class="fas fa-search"></i></button>
                     </div> -->
@@ -146,7 +146,7 @@
 
             <transition-group v-else name="flip-list" class = "row no-gutters" tag="div">
 
-                <div v-for="product in notFull.forShowNow" class="col-12 mb-1 col-sm-6 col-lg-4 col-xl-3" :key = "product.id">
+                <div v-for="product in notFull.forShowNow" class="c-flip-list-item col-12 mb-1 col-sm-6 col-lg-4 col-xl-3" :key = "product.id">
 
                         <div class="card d-flex flex-column justify-content-between my-card m-1"  >
                                 <img :src="product.image" class="card-img-top img " alt="..." @click="openCardInfo(product.id)">
@@ -247,18 +247,26 @@ export default defineComponent({
 
             const totalAmount: Array<Product> = this.$store.getters.allProducts
 
-            const amuuntOfCeilPagination: Array<number> = new Array(Math.ceil(totalAmount.length/this.amount))
+            let paginationNamber = this.paginationNamber
+
+            const newTotal: Array<Product> = totalAmount.filter(el => searchCompare(el.name, filters.search) && el.price > filters.minPrice && el.price < filters.maxPrice && (filters.category!=="all" ? el.category === filters.category : true))
+            
+            const amuuntOfCeilPagination: Array<number> = new Array(Math.ceil(newTotal.length/this.amount))
             for(let i = 0; i < amuuntOfCeilPagination.length; i++){
                 amuuntOfCeilPagination[i] = (i+1)
             }
 
-            const newTotal: Array<Product> = totalAmount.filter(el => searchCompare(el.name, filters.search) && el.price > filters.minPrice && el.price < filters.maxPrice && (filters.category!=="all" ? el.category === filters.category : true))
-            
             if(this.number){
             //     const _total = [...totalAmount]
-                const forShowNow = newTotal.slice(this.amount*(this.paginationNamber-1), this.amount*this.paginationNamber)
-                console.log(newTotal,
-                    forShowNow)
+
+                if(!newTotal[this.amount]){
+                    
+                    paginationNamber = 1
+                }
+
+                const forShowNow = newTotal.slice(this.amount*(paginationNamber-1), this.amount*paginationNamber)
+                console.log("newTotal", newTotal)
+                console.log("forShowNow", forShowNow)
                 return {
                     totalAmount: newTotal,
                     forShowNow,
@@ -371,7 +379,7 @@ export default defineComponent({
 </script>
 
 
-<style lang="css" > 
+<style lang="css" scope > 
 
     .head-line{
         margin-top: 4em;
@@ -452,10 +460,8 @@ export default defineComponent({
         opacity: 0;
     }
     
-    .flip-list-item {
+    .c-flip-list-item {
         transition: all 0.8s ease;
-        display: inline-block;
-        margin-right: 10px;
     }
 
     .flip-list-enter-from,
@@ -465,7 +471,7 @@ export default defineComponent({
     }
 
     .flip-list-leave-active {
-        position: absolute;
+        /* position: absolute; */
     } 
 
 </style>

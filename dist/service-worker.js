@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.a3183030c6e6db4073139d56a1ae6652.js"
+  "/precache-manifest.0112f871feac504bb01c29378325e319.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "garden_app"});

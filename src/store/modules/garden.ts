@@ -4,7 +4,7 @@ export interface Product {
     id: string;
     name: string;
     price: number;
-    image: string;
+    image: any;
     description: any;
     category: "all" | "veg_seeds" | "berry_seeds" | "flower_seeds" | "house_flower_seeds" | "seedlings";
     family: any;
@@ -96,7 +96,7 @@ export default {
             console.log(product)
 
             fd.append("name", product.name)
-            fd.append("image", product.image)
+            fd.append("image", product.image, product.image.fileName)
             fd.append("price", product.price.toString())
             fd.append("family", JSON.stringify(product.family))
             fd.append("description", product.description)
