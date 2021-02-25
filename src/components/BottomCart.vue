@@ -9,7 +9,6 @@
                     </div>
                 </div>
                 
-                
             </div>
             <div class="col-5" >
                 <button type="button" @click="goTo('cart')" class="btn btn-info">

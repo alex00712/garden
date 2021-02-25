@@ -22,7 +22,7 @@
             <h3>Новые</h3>
             <transition-group name="flip-list" class="list-group" tag="div">
             <!-- <div > -->
-                <a v-for="item in dashbord.data.newClientOrders" @dragstart="drag" class="parent mb-2 list-group-item list-group-item-action" :key="item.id" >
+                <a v-for="item in dashbord.data.newClientOrders" @dragstart="drag" class="mb-2 list-group-item list-group-item-action" :key="item.id" >
                     <AdminItemOfDashbord :item="item" :first="1" @change-status="changeStatus($event)"/>
                 </a>
             <!-- </div> -->

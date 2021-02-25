@@ -25,7 +25,7 @@ export default {
                 state.isAlert = false;
                 state.value = "";
                 state.type = "";
-            }, 1000)
+            }, 2000)
         },
         removeAlert(state: Alert){
             state.isAlert = false;

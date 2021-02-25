@@ -10,7 +10,18 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
+                    <div class= "row mt-2">
+                        <div class="col-12">
+                            <div class="row justify-content-between">
+                                <div class="col-2">
+                                    <button @click="changeCard(-1)" class="btn btn-outline-success" type="button"><i class="fas fa-arrow-left"></i></button>
+                                </div>
+                                <div class="col-2">
+                                    <button @click="changeCard(1)" class="btn btn-outline-success" type="button"><i class="fas fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <div class="modal-body">
                     <div class = "row align-items-center">
                         <div class = "col-12">
@@ -21,19 +32,6 @@
                         </div>
                         <div class = "col-12 mt-4">
                             <strong>Цена: {{getPayment.product.price}} рублей</strong>
-                        </div>
-                    </div>
-
-                    <div class= "row">
-                        <div class="col-12">
-                            <div class="row justify-content-between">
-                                <div class="col-4">
-                                    <button @click="changeCard(-1)" class="btn btn-outline-success" type="button"><i class="fas fa-arrow-left"></i></button>
-                                </div>
-                                <div class="col-4">
-                                    <button @click="changeCard(1)" class="btn btn-outline-success" type="button"><i class="fas fa-arrow-right"></i></button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     
