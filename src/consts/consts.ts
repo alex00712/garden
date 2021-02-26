@@ -90,17 +90,23 @@ const consts: Consts = {
 //     products: "/products",
 //     productsAll: "/admin/products",
 //     login: "/login",
+
 //     category: "/category",
 //     family: "/family",
 //     deleteProduct: "/admin/product",
 //     poductById: "/product",
 //     clientOrder: "/clientOrder",
 //     connectWithAdmin: "/connectWithAdmin",
+//     deleteCategory: "/admin/category",
+//     deleteFamily: "/admin/family",
 
+//     // for Dashbord
 //     processingClientOrders: "/admin/processingClientOrders",
-//     newClientOrders: "/admin/newClientOrders",
-//     executedClientOrders: "/admin/executedClientOrders",       
-//     changeStatus: "/admin/changeStatus/",
+//     newClientOrders: "/newClientOrders",
+//     executedClientOrders: "/admin/executedClientOrders",
+//     changeStatus: "http://192.168.153.49:8080/admin/changeStatus/",
+//     // 
+
 //     // key for localstorage
 //     cardName: "gardenCenterCard"
 // }
