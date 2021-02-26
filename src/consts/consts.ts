@@ -11,6 +11,7 @@ interface Consts {
     poductById: string;
     deleteCategory: string;
     deleteFamily: string;
+    loadImage: string;
     
     //order
     clientOrder: string;
@@ -43,6 +44,7 @@ const consts: Consts = {
     connectWithAdmin: "https://greenisland.herokuapp.com/connectWithAdmin",
     deleteCategory: "https://greenisland.herokuapp.com/admin/category",
     deleteFamily: "https://greenisland.herokuapp.com/admin/family",
+    loadImage: "https://greenisland.herokuapp.com//product/img",
 
     // for Dashbord
     processingClientOrders: "https://greenisland.herokuapp.com/admin/processingClientOrders",
@@ -99,6 +101,7 @@ const consts: Consts = {
 //     connectWithAdmin: "/connectWithAdmin",
 //     deleteCategory: "/admin/category",
 //     deleteFamily: "/admin/family",
+//     loadImage: "/product/img",
 
 //     // for Dashbord
 //     processingClientOrders: "/admin/processingClientOrders",

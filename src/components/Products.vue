@@ -149,7 +149,7 @@
                 <div v-for="product in notFull.forShowNow" class="c-flip-list-item col-12 mb-1 col-sm-6 col-lg-4 col-xl-3" :key = "product.id">
 
                         <div class="card d-flex flex-column justify-content-between my-card m-1"  >
-                                <img :src="product.image" class="card-img-top img " alt="..." @click="openCardInfo(product.id)">
+                                <img :src="`https://greenisland.herokuapp.com/product/img${product.image}`" class="card-img-top img " alt="..." @click="openCardInfo(product.id)">
                                 <div class="card-body ">
                                     <p class = "font-weight-bold" >{{product.name}}</p>
                                     <p><small>{{product.description}}</small></p>
@@ -295,6 +295,7 @@ export default defineComponent({
 
     },
     methods: {
+
         openCardInfo(id: string){
             this.$store.dispatch('showWindow', id)
         },
