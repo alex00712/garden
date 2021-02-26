@@ -1,4 +1,5 @@
 import Consts from '../../consts/consts'
+import router from '../../router/index'
 import axios from 'axios'
 export interface Product {
     id: string;
@@ -85,6 +86,7 @@ export default {
                 if(response.ok){
                     context.commit('deleteOne', id)
                     context.commit("setAlert", {value: `УДАЛЕНО`, type: "success"});
+                    router.push({path: '/admin'})
                   }else{
                     throw response
                   } 
@@ -98,8 +100,8 @@ export default {
             console.log(product)
             const fd = new FormData()
             console.log(product)
-
-            const fileName = `${product.image.fileName}_${new Date()}`
+            const date: Date = new Date()
+            const fileName = `${product.image.fileName}_${+date}`
 
             fd.append("name", product.name)
             fd.append("image", product.image, fileName)
@@ -120,7 +122,7 @@ export default {
                 if(response.ok){
                     context.dispatch('fetchPosts')
                     context.commit("setAlert", {value: `Добавленно`, type: "success"});
-                    context.$router.push({path: '/admin'})
+                    router.push({path: '/admin'})
                   }else{
                     throw response
                   } 
@@ -134,9 +136,9 @@ export default {
             console.log(product)
             const fd = new FormData()
             console.log(product)
-
-            const fileName = `${product.image.fileName}_${new Date()}`
-
+            const date: Date = new Date()
+            const fileName = `${product.image.fileName}_${+date}`
+            fd.append("id", product.id)
             fd.append("name", product.name)
             fd.append("image", product.image, fileName)
             fd.append("price", product.price.toString())
@@ -148,9 +150,7 @@ export default {
                 console.log(Consts.deleteProduct)
                 const response = await fetch(Consts.deleteProduct, {
                     method: "PUT",
-                    headers: { 
-                        'Content-Type': 'application/json' 
-                    },
+
                     body: fd
                 })
                 if(response.ok){
