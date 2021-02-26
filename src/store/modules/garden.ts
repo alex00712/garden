@@ -99,8 +99,10 @@ export default {
             const fd = new FormData()
             console.log(product)
 
+            const fileName = `${product.image.fileName}_${new Date()}`
+
             fd.append("name", product.name)
-            fd.append("image", product.image, product.image.fileName)
+            fd.append("image", product.image, fileName)
             fd.append("price", product.price.toString())
             fd.append("family", JSON.stringify(product.family))
             fd.append("description", product.description)
@@ -130,6 +132,18 @@ export default {
 
         async updatePost(context: any, product: Product){
             console.log(product)
+            const fd = new FormData()
+            console.log(product)
+
+            const fileName = `${product.image.fileName}_${new Date()}`
+
+            fd.append("name", product.name)
+            fd.append("image", product.image, fileName)
+            fd.append("price", product.price.toString())
+            fd.append("family", JSON.stringify(product.family))
+            fd.append("description", product.description)
+            fd.append("category", JSON.stringify(product.category))
+
             try {
                 console.log(Consts.deleteProduct)
                 const response = await fetch(Consts.deleteProduct, {
@@ -137,11 +151,12 @@ export default {
                     headers: { 
                         'Content-Type': 'application/json' 
                     },
-                    body: JSON.stringify(product)
+                    body: fd
                 })
                 if(response.ok){
                     context.dispatch('fetchPosts')
                     context.commit("setAlert", {value: `Обновлено`, type: "success"});
+                    context.$router.push({path: '/admin'})
                   }else{
                     throw response
                   } 

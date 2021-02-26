@@ -25,7 +25,7 @@
 
                     <div class="row no-gutters" style="height: 100%;" >
                         <div class="col-6 align-self-center">
-                            <img :src="position.image" class="ml-1 card-img" alt="...">
+                            <img :src="loadImage(position.image)" class="ml-1 card-img" alt="...">
                         </div>
                         <div class="col-6 align-self-center">
                             <div class="card-body">
@@ -54,6 +54,7 @@
 </template>
 
 <script lang="ts">
+    import consts from '../consts/consts' 
     import { defineComponent } from 'vue';
     import { mapGetters, mapMutations } from 'vuex'
     import {Product} from '../store/modules/garden';
@@ -64,6 +65,9 @@
         ...mapGetters(['allMyCard']),
         },
         methods: {
+            loadImage(name: string){
+                return `${consts.loadImage}/${name}`
+            },
             goTo(path: string){
                 if(path==='payment'){
                     return this.$store.commit("setAlert", {value: `В разработке`, type: "info"});

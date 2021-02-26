@@ -1,5 +1,5 @@
-// module.exports = {
-//     devServer: {
-//           proxy: 'https://greenisland.herokuapp.com',
-//       }
-//   }
+module.exports = {
+    devServer: {
+          proxy: 'http://localhost:8080',
+      }
+  }

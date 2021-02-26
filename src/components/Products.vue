@@ -149,7 +149,7 @@
                 <div v-for="product in notFull.forShowNow" class="c-flip-list-item col-12 mb-1 col-sm-6 col-lg-4 col-xl-3" :key = "product.id">
 
                         <div class="card d-flex flex-column justify-content-between my-card m-1"  >
-                                <img :src="`https://greenisland.herokuapp.com/product/img${product.image}`" class="card-img-top img " alt="..." @click="openCardInfo(product.id)">
+                                <img :src="loadImage(product.image)" class="card-img-top img " alt="..." @click="openCardInfo(product.id)">
                                 <div class="card-body ">
                                     <p class = "font-weight-bold" >{{product.name}}</p>
                                     <p><small>{{product.description}}</small></p>
@@ -214,6 +214,7 @@
 <script lang="ts">
 import { mapGetters, mapMutations } from 'vuex';
 import { defineComponent } from 'vue';
+import consts from '../consts/consts'
 import {Product, Filters} from '../store/modules/garden';
 import {AddToCardPayload, CardPosition, MyCard, Operation} from '../store/modules/cart'
 
@@ -295,7 +296,9 @@ export default defineComponent({
 
     },
     methods: {
-
+        loadImage(name: string){
+            return `${consts.loadImage}/${name}`
+        },
         openCardInfo(id: string){
             this.$store.dispatch('showWindow', id)
         },

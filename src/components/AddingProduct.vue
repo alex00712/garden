@@ -35,7 +35,7 @@
                   <input style="display: none" type="file" @change="selectFile" ref="fileInput" />
                   <div class="col-12 d-flex justify-content-center">
                     <div class = "preImage" @click="fileHandler">
-                      <img v-if="newProd.image" :src="image" alt="img" />
+                      <img v-if="newProd.image" :src="image(newProd.image)" alt="img" />
                       <i v-else class="fas fa-image"></i>
                     </div>
                   </div>
@@ -123,9 +123,12 @@ export default defineComponent({
     isButtonDisable(){
       return (this.errors.isNameError || this.errors.isDescriptionError || this.errors.isPriceError || this.errors.isImageError || !!this.errors.category) ? true : false ;
     },
+    loadImage(name){
+      return `${consts.loadImage}/${name}`
+    },
     image(){
-      if(urlExp.test(this.newProd.image)){
-        return this.newProd.image
+      if(typeof this.newProd.image === "string"){
+        return this.loadImage(this.newProd.image)
       }
       return URL.createObjectURL(this.newProd.image)
     }
