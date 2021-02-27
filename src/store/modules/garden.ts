@@ -141,6 +141,10 @@ export default {
             const date: Date = new Date()
             const fileName = `${product.image.fileName}_${+date}`
             
+            if(typeof product.image==="string"){
+                product.image = {}
+            }
+
             fd.append("id", product.id)
             fd.append("active", product.active.toString())
             fd.append("name", product.name)
