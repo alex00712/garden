@@ -172,7 +172,7 @@ export default {
                 if(response.ok){
                     context.dispatch('fetchPosts')
                     context.commit("setAlert", {value: `Обновлено`, type: "success"});
-                    context.$router.push({path: '/admin'})
+                    router.push({path: '/admin'})
                   }else{
                     throw response
                   } 
