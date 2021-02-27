@@ -51,6 +51,11 @@
                   </div>
                   
                 </div>
+
+                <div class="form-group form-check">
+                  <input @click="checkFluency($event)" :checked="newProd.active" type="checkbox" class="form-check-input" id="exampleCheck1">
+                  <label class="form-check-label" for="exampleCheck1">Активность</label>
+                </div>
                 
                 <div class="form-group text-left">
                     <label for="description">Описание</label>
@@ -103,6 +108,7 @@ export default defineComponent({
       categories: [],
       families: [],
       newProd: {
+        active: true,
         category: {},
         description: "",
         family: {},
@@ -135,6 +141,10 @@ export default defineComponent({
     }
   },
   methods: {
+    checkFluency(e){
+      console.log(e.target.checked)
+      this.newProd.active = e.target.checked
+    },
     loadImage(name){
       return `${consts.loadImage}/${name}`
     },

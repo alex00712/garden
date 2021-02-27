@@ -3,6 +3,7 @@ import router from '../../router/index'
 import axios from 'axios'
 export interface Product {
     id: string;
+    active: boolean;
     name: string;
     price: number;
     image: any;
@@ -103,6 +104,7 @@ export default {
             const date: Date = new Date()
             const fileName = `${product.image.fileName}_${+date}`
 
+            fd.append("active", product.active.toString())
             fd.append("name", product.name)
             fd.append("image", product.image, fileName)
             fd.append("price", product.price.toString())
@@ -138,7 +140,9 @@ export default {
             console.log(product)
             const date: Date = new Date()
             const fileName = `${product.image.fileName}_${+date}`
+            
             fd.append("id", product.id)
+            fd.append("active", product.active.toString())
             fd.append("name", product.name)
             fd.append("image", product.image, fileName)
             fd.append("price", product.price.toString())
