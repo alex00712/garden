@@ -34,9 +34,21 @@ export default defineComponent({
     data(){
         return{
             reviews: [
-                {id: 1, image: "https://thumb.tildacdn.com/tild3339-3439-4331-a235-333664313062/-/cover/50x50/left/top/-/format/webp/1.png", name: "Sarah Lewin", job: "Projects manager in Pixels", text: "I think if you do something and it turns out pretty good, then you should go do something else wonderful, not dwell on it for too long."},
-                {id: 2, image: "https://thumb.tildacdn.com/tild3066-3438-4335-a261-353337333639/-/cover/50x50/left/top/-/format/webp/2.png", name: "Gregory Tabot", job: "Photographer", text: "The principal element of Suprematism in painting, as in architecture, is its liberation from all social or materialist tendencies. Through Suprematism, art comes into its pure and unpolluted form."},
-                {id: 3, image: "https://thumb.tildacdn.com/tild3361-3630-4733-a163-643735633139/-/cover/50x50/left/top/-/format/webp/3.png", name: "Jess Simpson", job: "Team lead in TBB", text: "I think if you do something and it turns out pretty good, then you should go do something else wonderful, not dwell on it for too long."}
+                {id: 1, 
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRAXJl2iloMVy5bMnEkygh_XbcbXtkCHfdJw&usqp=CAU", 
+                name: "Петр Водовозов", 
+                job: "Ферма \"Плоды Народа\"", 
+                text: "Отличные ребята. Заказал яблони. Привезли в срок. Сажали всем семейством. Урожай был отменный."},
+                {id: 2,
+                 image: "https://thumb.tildacdn.com/tild3066-3438-4335-a261-353337333639/-/cover/50x50/left/top/-/format/webp/2.png", 
+                 name: "Иван Симонов", 
+                 job: "Skillbox", 
+                 text: "Так как я дачник с большим стажем, имею опыт приобретения саженцев в разных садовых центрах и магазинах. На магазин \"Зелёный остров\" \"наткнулся\" случайно в интернете, разыскивая нужные мне саженцы. Все быстро, четко, вежливо. Летом все мои саженцы цвели, мы наслаждались красивыми цветами."},
+                {id: 3, 
+                image: "https://thumb.tildacdn.com/tild3361-3630-4733-a163-643735633139/-/cover/50x50/left/top/-/format/webp/3.png", 
+                name: "Jess Simpson", 
+                job: "Team lead in TBB",
+                text: "I think if you do something and it turns out pretty good, then you should go do something else wonderful, not dwell on it for too long."}
             ] 
         }
     },
@@ -62,6 +74,7 @@ export default defineComponent({
     }
     .custom-img{
         width: 50px;
+        height: 50px;
         border-radius: 25px;
     }
 </style>

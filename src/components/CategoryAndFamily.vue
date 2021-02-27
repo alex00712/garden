@@ -18,7 +18,7 @@
                 <li v-for="item in categories" class="list-group-item d-flex justify-content-between" :key="item.id">
                     {{item.name}}
                     <div>
-                        <!-- <i class="changeIcon fas fa-cog"></i> -->
+                        <i @click="editCategory(item.id)" class="changeIcon fas fa-cog"></i>
                         <i @click="deleteCategory(item.id)" class="deleteIcon far fa-trash-alt"></i>
                     </div>
                 </li>
@@ -34,7 +34,7 @@
                 <li v-for="item in families" class="list-group-item d-flex justify-content-between" :key="item.id">
                     {{item.name}}
                     <div>
-                        <!-- <i class="changeIcon fas fa-cog"></i> -->
+                        <i @click="editFamily(item.id)" class="changeIcon fas fa-cog"></i>
                         <i @click="deleteFamily(item.id)" class="deleteIcon far fa-trash-alt"></i>
                     </div>
                 </li>
@@ -45,7 +45,7 @@
         </div>
 
         <div v-if="window.isOpen">
-            <AddingCategoryAndFamily @done="load($event)" @close="close" :title="window.title"/>
+            <AddingCategoryAndFamily :edition="edition" @done="load($event)" @close="close" :title="window.title"/>
         </div>
     </div>
 </template>
@@ -57,6 +57,7 @@
     export default defineComponent({
         data(){
             return{
+                edition: {},
                 categories: [],
                 families: [],
                 window: {
@@ -73,10 +74,21 @@
             
         },
         methods: {
+            editCategory(id){
+                this.$data.edition = this.categories.find(el=>el.id===id)
+                this.$data.window.title = "Категория"
+                this.$data.window.isOpen = true
+            },
+            editFamily(id){
+                this.$data.edition = this.families.find(el=>el.id===id)
+                this.$data.window.title = "Семейство"
+                this.$data.window.isOpen = true
+            },
             goTo(path){
                 this.$router.push({path})
             },
             close(){
+                this.edition = {}
                 this.$data.window.isOpen = false
             },
             openAddingWindow(title){
@@ -84,6 +96,7 @@
                 this.$data.window.isOpen = true
                 this.$data.window.title = title
             },
+            
             async deleteCategory(id){
                 try {
                     const response = await fetch(`${consts.deleteCategory}/${id}`, {

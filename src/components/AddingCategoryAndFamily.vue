@@ -4,9 +4,10 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Добавить {{title}}</h5>
+                    <h5 v-if="Object.values(edition).length!==0" class="modal-title">Редактировать {{title}}</h5>
+                    <h5 v-else class="modal-title">Добавить {{title}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"  >
-                        <span @click="this.$emit('close')" aria-hidden="true">&times;</span>
+                        <span @click="close" aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
@@ -27,7 +28,9 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button @click="add" type="button" class="btn btn-primary">Создать</button>
+                    
+                    <button v-if="Object.values(edition).length!==0" @click="add" type="button" class="btn btn-success">Сохранить</button>
+                    <button v-else @click="add" type="button" class="btn btn-primary">Создать</button>
                 </div>
 
             </div>
@@ -50,10 +53,25 @@
         props: {
             title: {
                 type: String,
+            },
+            edition: {
+                type: Object
+            }
+        },
+        mounted(){
+            if(this.edition){
+                this.name = this.edition.name
+                if(this.title==="Семейство"){
+                    this.description = this.edition.description
+                }
             }
         },
         methods: {
-
+            close(){
+                this.name = ""
+                this.description = ""
+                this.$emit('close')
+            },
             changeHandler(e){
                 const {name, value} = e.target
                 if(this.validateInput(name, value)){
@@ -77,6 +95,38 @@
                         this.$data.isDesError = false;
                         break;
                 }
+            },
+
+            async update(){
+                let url = consts.deleteCategory
+                let body = {id: this.edition.id, name: this.$data.name}
+                if(this.$props.title==='Семейство'){
+                    url = consts.deleteFamily
+                    body = {id: this.edition.id, name: this.$data.name, description: this.$data.description}
+                }
+                console.log(body)
+                const V = Object.values(body).includes("")
+
+                if(!V){
+                    try {
+                        const response = await fetch(url, {
+                            method: "PUT",
+                            headers: { 
+                                'Content-Type': 'application/json' 
+                            },
+                            body: JSON.stringify(body)
+                        })
+                        if(response.ok){
+                            this.$emit('done', {e: this.$props.title})
+                        }else{
+                            throw response
+                        } 
+                        } catch (error) {
+                        console.log(error)
+                            this.$store.commit("setAlert", {value: `Не могу редактировать`, type: "danger"});
+                        }
+                }
+
             },
 
             async add(){
@@ -105,7 +155,7 @@
                         } 
                         } catch (error) {
                         console.log(error)
-                            this.$store.commit("setAlert", {value: `Не могу удалить семейство`, type: "danger"});
+                            this.$store.commit("setAlert", {value: `Не могу добавить`, type: "danger"});
                         }
                 }
 
