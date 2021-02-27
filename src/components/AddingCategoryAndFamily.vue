@@ -29,7 +29,7 @@
 
                 <div class="modal-footer">
                     
-                    <button v-if="Object.values(edition).length!==0" @click="add" type="button" class="btn btn-success">Сохранить</button>
+                    <button v-if="Object.values(edition).length!==0" @click="update" type="button" class="btn btn-success">Сохранить</button>
                     <button v-else @click="add" type="button" class="btn btn-primary">Создать</button>
                 </div>
 
