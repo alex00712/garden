@@ -38,7 +38,7 @@
                 <button @click="this.$router.push({path: '/admin/categoryAndFamily'})" type="button" class="btn btn-success">Категории и семейства</button>
             </div>
             <div class = "col-4" style="margin-top: 50px; margin-bottom: 50px;">
-                <button @click="this.$router.push({path: '/admin/orders'})" type="button" class="btn btn-success">Посмотреть статусы</button>
+                <button @click="this.$router.push({path: '/admin/orders'})" type="button" class="btn btn-success">Посмотреть заказы</button>
             </div>
         </div>
         <Products isEdit="true"  />
