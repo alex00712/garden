@@ -141,18 +141,26 @@ export default {
             const date: Date = new Date()
             const fileName = `${product.image.fileName}_${+date}`
             
-            if(typeof product.image==="string"){
-                product.image = {}
+            if(typeof product.image === "string"){
+                fd.append("id", product.id)
+                fd.append("active", product.active.toString())
+                fd.append("name", product.name)
+                fd.append("price", product.price.toString())
+                fd.append("family", JSON.stringify(product.family))
+                fd.append("description", product.description)
+                fd.append("category", JSON.stringify(product.category))
+            }else{
+                fd.append("id", product.id)
+                fd.append("active", product.active.toString())
+                fd.append("name", product.name)
+                fd.append("image", product.image, fileName)
+                fd.append("price", product.price.toString())
+                fd.append("family", JSON.stringify(product.family))
+                fd.append("description", product.description)
+                fd.append("category", JSON.stringify(product.category))
             }
 
-            fd.append("id", product.id)
-            fd.append("active", product.active.toString())
-            fd.append("name", product.name)
-            fd.append("image", product.image, fileName)
-            fd.append("price", product.price.toString())
-            fd.append("family", JSON.stringify(product.family))
-            fd.append("description", product.description)
-            fd.append("category", JSON.stringify(product.category))
+
 
             try {
                 console.log(Consts.deleteProduct)
