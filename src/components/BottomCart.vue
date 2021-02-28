@@ -4,7 +4,7 @@
             <div class="col-7">
                 <div v-for="(product, index) in allMyCard" class = "image-main-wraper" :key="product.id">
                     <div v-if="index<5" class = "image-wraper">
-                        <img :src="product.image" class = "image-wraper__img"/>
+                        <img :src="loadImage(product.image)" class = "image-wraper__img"/>
                         <span class="badge badge-pill badge-danger image-wraper__snippet">{{product.count}}</span>
                     </div>
                 </div>
@@ -20,6 +20,7 @@
 </template>
 
 <script lang="ts" >
+    import consts from '../consts/consts'
     import { defineComponent } from 'vue';
     import { mapGetters, mapMutations } from 'vuex'
     export default defineComponent({
@@ -38,6 +39,9 @@
         }
         },
         methods: {
+        loadImage(name: string){
+            return `${consts.loadImage}/${name}`
+        },
             goTo(path: string){
                 this.$router.push({path})
             }
