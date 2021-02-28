@@ -1,7 +1,8 @@
 <template>
+    <div class="text-center">{{item.name}}</div>
+    <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
     <div class="d-flex w-100 justify-content-between">
         <small @click="this.$emit('change-status', {id: item.id, direction: 'back'})" :class="{'hidden': first}" class="arrow-back" ><i class="fas fa-arrow-left"></i></small>
-        <p style="word-break: break-word" class="mb-1" ><strong>{{item.clientMail}}</strong></p>
         <small @click="this.$emit('change-status', {id: item.id, direction: 'forward'})" class="arrow" >
             <i v-if="last" class="fas fa-times"></i>
             <i v-else class="fas fa-arrow-right"></i>

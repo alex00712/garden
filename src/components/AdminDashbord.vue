@@ -18,31 +18,34 @@
     </div>
 
     <div v-else class="row" style="height: 100vh">
-        <div class="col-12 col-md-6 col-xl-4 new" >
+        <div class="col-12 col-md-6 col-xl-4 " >
             <h3>Новые</h3>
+            <hr class="line line_new"/>
             <transition-group name="flip-list" class="list-group" tag="div">
             <!-- <div > -->
-                <a v-for="item in dashbord.data.newClientOrders" @dragstart="drag" class="mb-2 list-group-item list-group-item-action" :key="item.id" >
+                <a v-for="item in dashbord.data.newClientOrders" @dragstart="drag" class="back_list_new mb-2 list-group-item list-group-item-action" :key="item.id" >
                     <AdminItemOfDashbord :item="item" :first="1" @change-status="changeStatus($event)"/>
                 </a>
             <!-- </div> -->
             </transition-group>
         </div>
-        <div class="col-12 col-md-6 col-xl-4 now" >
+        <div class="col-12 col-md-6 col-xl-4 " >
             <h3>В обработке</h3>
+            <hr class="line line_now"/>
             <transition-group name="flip-list" class="list-group" tag="div">
             <!-- <div class="list-group"> -->
-                <a v-for="item in dashbord.data.processingClientOrders" class="mb-2 list-group-item list-group-item-action" :key="item.id" >
+                <a v-for="item in dashbord.data.processingClientOrders" class=" back_list_now mb-2 list-group-item list-group-item-action" :key="item.id" >
                     <AdminItemOfDashbord :item="item" @change-status="changeStatus($event)"/>
                 </a>
             <!-- </div> -->
             </transition-group>
         </div>
-        <div class="col-12 col-md-6 col-xl-4 done" >
+        <div class="col-12 col-md-6 col-xl-4 " >
             <h3>Завершенные</h3>
+            <hr class="line line_passsed"/>
             <transition-group name="flip-list" class="list-group" tag="div">
             <!-- <div class="list-group"> -->
-                <a v-for="item in dashbord.data.executedClientOrders" class="mb-2 list-group-item list-group-item-action" :key="item.id" >
+                <a v-for="item in dashbord.data.executedClientOrders" class="back_list_passsed mb-2 list-group-item list-group-item-action" :key="item.id" >
                     <AdminItemOfDashbord :item="item" :last="1" @change-status="changeStatus($event)"/>
                 </a>
             <!-- </div> -->
@@ -130,7 +133,7 @@ export default defineComponent({
         transition: all .5s;
     }
     .arrow-back:hover{
-        background: linear-gradient(0.25turn, #00000059, #d4d4d4d4, #bdbdbd0a);;
+        background: linear-gradient(0.25turn, #00000059, #d4d4d4d4, #bdbdbd0a);
         position: absolute;
         top: 0;
         left: 0;
@@ -146,16 +149,31 @@ export default defineComponent({
         }
         transition: all .5s;
     }
-    .new{
-        background-color: #99b1e2;
+
+    .back_list{
+        // background-color: #f1f1f1;
+        &_new{
+            background-color: #6cccfe2e;
+        }
+        &_now{
+            background-color: #85dcde2e;
+        }
+        &_passsed{
+            background-color: #a7d0702e;
+        }
     }
 
-    .now{
-        background-color: #ff00408c;
-    }
-
-    .done{
-        background-color: #0d9a0099;
+    .line{
+        height: 4px;
+        &_new{
+            background-color: #6cccfe;
+        }
+        &_now{
+            background-color: #85dcde;
+        }
+        &_passsed{
+            background-color: #a7d070;
+        }
     }
 
     .flip-list {
