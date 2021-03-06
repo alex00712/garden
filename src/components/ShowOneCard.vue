@@ -67,6 +67,9 @@
         },
         methods: {
             loadImage(name: string){
+                if(name.startsWith("http")){
+                    return name
+                }
                 return `${consts.loadImage}/${name}`
             },
             // imageMaker(image: any){
@@ -89,7 +92,7 @@
 
 <style lang="css" scope >
     .image{
-        width: 100%;
+        width: 60%;
     }
 
     .open{

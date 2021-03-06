@@ -34,7 +34,16 @@
                             <a class="nav-link text-dark font-weight-bold cursor-pointer" name = "all" @click="handleChange">Все</a>
                             <span v-if="allFilters.category==='all'" class="badge badge-success">{{notFull.totalAmount.length}}</span>
                         </li>
-                        <li class="nav-item d-flex justify-content-between align-items-center">
+                        <li 
+                            v-for="item in getSeparatosCategory" 
+                            class="nav-item d-flex justify-content-between align-items-center"
+                            :key="item.id"
+                        >
+                            <a class="nav-link text-dark font-weight-bold cursor-pointer" :name="JSON.stringify(item)" @click="handleChange">{{item.name}}</a>
+                            <span v-if="allFilters.category===JSON.stringify(item)" class="badge badge-success">{{notFull.totalAmount.length}}</span>
+                        </li>
+                        
+                        <!-- <li class="nav-item d-flex justify-content-between align-items-center">
                             <a class="nav-link text-dark font-weight-bold cursor-pointer" name = "veg_seeds" @click="handleChange">Семена овощей</a>
                             <span v-if="allFilters.category==='veg_seeds'" class="badge badge-success">{{notFull.totalAmount.length}}</span>
                         </li>
@@ -53,10 +62,11 @@
                         <li class="nav-item d-flex justify-content-between align-items-center">
                             <a class="nav-link text-dark font-weight-bold cursor-pointer" name = "seedlings" @click="handleChange">Саженцы</a>
                             <span v-if="allFilters.category==='seedlings'" class="badge badge-success">{{notFull.totalAmount.length}}</span>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
-                <div class="col-12 mt-3" >
+
+                <!-- <div class="col-12 mt-3" >
                     <a class="nav-link text-dark text-center text-md-left font-weight-bold cursor-none">Раздел</a>
                     <ul class="nav flex-column align-items-start ">
                         <li class="nav-item c-nav">
@@ -66,7 +76,7 @@
                             <a class="nav-link text-secondary cursor-pointer" name = "seedlings" @click="handleChange">Саженцы</a>
                         </li>
                     </ul>
-                </div>
+                </div> -->
 
                 <div class="col-12 mt-2" >
                     <div class = "d-flex justify-content-start mb-2" >
@@ -132,7 +142,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-9 col-xl-10">
+        <div ref="focus_list" class="col-12 col-md-9 col-xl-10">
             <!-- <div  > -->
             <div v-if="isProductsAreFetching" style="margin-top: 100px" class="d-flex justify-content-center">
                 <div style="width: 3rem; height: 3rem;" class="spinner-border text-success mt-8" role="status">
@@ -144,7 +154,7 @@
                 <h3>Ничего не найдено...</h3>
             </div>
 
-            <transition-group v-else name="flip-list" class = "row no-gutters" tag="div">
+            <transition-group  v-else name="flip-list" class = "row no-gutters" tag="div">
 
                 <div v-for="product in notFull.forShowNow" class="c-flip-list-item col-12 mb-1 col-sm-6 col-lg-4 col-xl-3" :key = "product.id">
 
@@ -152,33 +162,34 @@
                                 <img :src="loadImage(product.image)" class="card-img-top img " alt="..." @click="openCardInfo(product.id)">
                                 <div class="card-body ">
                                     <p class = "font-weight-bold" >{{product.name}}</p>
-                                    <p><small>{{product.description}}</small></p>
+                                    <p class = "description"><small>{{product.description}}</small></p>
                                     <p class="price" ><strong>Цена</strong> {{product.price}} р</p>
                                 </div>
-                                
-                                <transition v-if="!isEdit" name="buttons" mode="out-in" >
-                                    <div v-if="countExistingInMyCard(product.id)" key="yet" class="d-flex flex-column m-1">
-                                        <button class="btn btn-outline-danger mb-2" @click="deleteFromCard(product.id)">Удалить</button>
+                                <div v-if="!getNewLoader">
+                                    <transition v-if="!isEdit" name="buttons" mode="out-in" >
+                                        <div v-if="countExistingInMyCard(product.id)" key="yet" class="d-flex flex-column m-1">
+                                            <button class="btn btn-outline-danger mb-2" @click="deleteFromCard(product.id)">Удалить</button>
 
-                                        <div>
-                                            <button class="btn btn-outline-danger mb-2" @click="updateCardPosition(product, 'decrement')"><i class="fas fa-minus"></i></button>
-                                            
-                                            <span class = "capa">{{countExistingInMyCard(product.id)}}</span>
+                                            <div>
+                                                <button class="btn btn-outline-danger mb-2" @click="updateCardPosition(product, 'decrement')"><i class="fas fa-minus"></i></button>
+                                                
+                                                <span class = "capa">{{countExistingInMyCard(product.id)}}</span>
 
-                                            <button class="btn btn-outline-success mb-2" @click="updateCardPosition(product, 'increment')"><i class="fas fa-plus"></i></button>
+                                                <button class="btn btn-outline-success mb-2" @click="updateCardPosition(product, 'increment')"><i class="fas fa-plus"></i></button>
+                                            </div>
+
+                                        </div>  
+
+                                        <div v-else key="notyet" class="d-flex flex-column m-1">
+                                            <button style="visibility: hidden" class="btn btn-success mb-2" @click="buyNow(product)" >Купить <i class="fas fa-dollar-sign"></i></button>
+                                            <button class="btn btn-primary mb-2" @click="addNewCardPosition(product)">Добавить <i class="fas fa-shopping-cart"></i></button>
                                         </div>
+                                    </transition>  
 
-                                    </div>  
-
-                                    <div v-else key="notyet" class="d-flex flex-column m-1">
-                                        <button class="btn btn-success mb-2" @click="buyNow(product)" >Купить <i class="fas fa-dollar-sign"></i></button>
-                                        <button class="btn btn-primary mb-2" @click="addNewCardPosition(product)">Добавить <i class="fas fa-shopping-cart"></i></button>
+                                    <div v-else class="d-flex flex-column m-1" >
+                                        <button class="btn btn-outline-primary mb-2" @click="goTo(`/admin/editor/${product.id}`)" ><i class="fas fa-cog"></i> Редактировать</button>
+                                        <button class="btn btn-outline-danger mb-2" @click="deleteProduct(product.id)"><i class="fas fa-edit"></i> Удалить</button>
                                     </div>
-                                </transition>  
-
-                                <div v-else class="d-flex flex-column m-1" >
-                                    <button class="btn btn-outline-primary mb-2" @click="goTo(`/admin/editor/${product.id}`)" ><i class="fas fa-cog"></i> Редактировать</button>
-                                    <button class="btn btn-outline-danger mb-2" @click="deleteProduct(product.id)"><i class="fas fa-edit"></i> Удалить</button>
                                 </div>
                         </div>
 
@@ -220,6 +231,8 @@ import {AddToCardPayload, CardPosition, MyCard, Operation} from '../store/module
 
 import searchCompare from '../utils/searchCompare'
 
+const url = /^https?/gi;
+
 export default defineComponent({
     data(){
         return{
@@ -238,7 +251,7 @@ export default defineComponent({
     },
     name: 'Garden',
     computed: {
-        ...mapGetters(['allProducts', 'allFilters', 'allMyCard', 'isProductsAreFetching']),
+        ...mapGetters(['allProducts', 'allFilters', 'allMyCard', 'isProductsAreFetching', 'getNewLoader', 'getSeparatosCategory']),
         isAdmin(){
             return !/admin/.test(window.location.pathname)
         },
@@ -250,12 +263,13 @@ export default defineComponent({
 
             let paginationNamber = this.paginationNamber
 
-            const newTotal: Array<Product> = totalAmount.filter(el => searchCompare(el.name, filters.search) && el.price > filters.minPrice && el.price < filters.maxPrice && (filters.category!=="all" ? el.category === filters.category : true))
+            const newTotal: Array<Product> = totalAmount.filter(el => searchCompare(el.name, filters.search) && el.price > filters.minPrice && el.price < filters.maxPrice && (filters.category!=="all" ? JSON.stringify(el.category) === filters.category : true))
             
             const amuuntOfCeilPagination: Array<number> = new Array(Math.ceil(newTotal.length/this.amount))
             for(let i = 0; i < amuuntOfCeilPagination.length; i++){
                 amuuntOfCeilPagination[i] = (i+1)
             }
+
 
             if(this.number){
             //     const _total = [...totalAmount]
@@ -297,10 +311,17 @@ export default defineComponent({
     },
     methods: {
         loadImage(name: string){
+            if(name.startsWith('http')){
+                return name
+            }
             return `${consts.loadImage}/${name}`
         },
         openCardInfo(id: string){
             this.$store.dispatch('showWindow', id)
+        },
+        setFocus(){
+            const el: any = this.$refs.focus_list;
+            el.focus();
         },
         setPaginationNumber(number: number){
             this.paginationNamber = number
@@ -330,10 +351,12 @@ export default defineComponent({
         },
         setFilters(e: any){
             this.$store.commit("updateFilters", {name: e.target.name, value: e.target.value});
+            
         },
 
         handleChange(e: any){
             this.$store.commit("updateFilters", {name: "category", value: e.target.name});
+            console.log(this.$store)
         },
 
         setAlert(name: string){
@@ -378,13 +401,17 @@ export default defineComponent({
                 this.countAnAmount(window.innerWidth)
             })
         }
-    },
+    }
+
 });
 </script>
 
 
 <style lang="css" scope > 
-
+    .description{
+        height: 150px;
+        overflow-y: hidden;
+    }
     .head-line{
         margin-top: 4em;
         margin-bottom: 4em;

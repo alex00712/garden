@@ -26,6 +26,9 @@ interface Consts {
     // storage
     cardName: string;
 
+    // defaultStorage
+    defaultAdminStorage: string;
+    defaultUserStorage: string;
 }
 
 // @ for production
@@ -54,7 +57,11 @@ const consts: Consts = {
     // 
 
     // key for localstorage
-    cardName: "gardenCenterCard"
+    cardName: "gardenCenterCard",
+
+    // defaultStorage
+    defaultAdminStorage: "defaultAdminStorage",
+    defaultUserStorage: "defaultUserStorage"
 }
 
 

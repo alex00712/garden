@@ -32,7 +32,7 @@
                 </div>
                 <div class="row align-items-center">
                   <div class = "col-12 text-left"><label for="image">Изображение</label></div>
-                  <input style="display: none" type="file" @change="selectFile" ref="fileInput" />
+                  <!-- <input style="display: none" type="file" @change="selectFile" ref="fileInput" /> -->
                   <div class="col-12 d-flex justify-content-center">
                     <div class = "preImage" @click="fileHandler">
                       <img v-if="newProd.image" :src="image()" alt="img" />
@@ -42,11 +42,11 @@
 
                   <div class="col-12">
                     <div class="form-group">
-                      <!-- <input name="image" type="text" class="form-control"  id="pass" @input="inputChangeHandler" v-model="newProd.image" placeholder="Ссылка на изображение"> -->
-                      <!-- <div v-if="errors.isImageError" class="invalid-feedback">
+                      <input name="image" type="text" class="form-control" :class="{'is-invalid': errors.isImageError}" id="pass" @input="inputChangeHandler" v-model="newProd.image" placeholder="Ссылка на изображение">
+                      <div v-if="errors.isImageError" class="invalid-feedback">
                           Неверная ссылка
-                          :class="{'is-invalid': errors.isImageError}"
-                      </div> -->
+                          
+                      </div>
                     </div>
                   </div>
                   
@@ -146,6 +146,11 @@ export default defineComponent({
       this.newProd.active = e.target.checked
     },
     loadImage(name){
+      console.log("name", typeof name)
+      console.log("name", name)
+      if(name.startsWith('http')){
+        return name
+      }
       return `${consts.loadImage}/${name}`
     },
     image(){

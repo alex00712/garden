@@ -66,6 +66,9 @@
         },
         methods: {
             loadImage(name: string){
+                if(name.startsWith('http')){
+                    return name
+                }
                 return `${consts.loadImage}/${name}`
             },
             goTo(path: string){

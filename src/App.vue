@@ -1,6 +1,7 @@
 <template>
   <div class = "container-fluid">
     <Alert/>
+    <!-- <Loader/> -->
     <ShowOneCard/>
     <transition name="fade" mode="out-in">
       <router-view/>
@@ -11,19 +12,23 @@
 <script>
     import { defineComponent } from 'vue';
     import Alert from "@/components/Alert.vue"
+    // import Loader from '@/components/Loader.vue'
     import ShowOneCard from '@/components/ShowOneCard'
     // import vSelect from 'vue-select'
     export default defineComponent({
         name: 'App',
         components: {
           Alert,
-          ShowOneCard
+          ShowOneCard,
+          // Loader
           // 'v-select': vSelect
         },
         async mounted() {
           this.$store.dispatch('setMyCardA')
           this.$store.dispatch('isTokenForAuth')
           this.$store.dispatch('fetchPosts')
+          this.$store.dispatch('getCategory')
+          
         },
     });
 </script>

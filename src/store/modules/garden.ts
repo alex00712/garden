@@ -1,6 +1,7 @@
 import Consts from '../../consts/consts'
 import router from '../../router/index'
 import axios from 'axios'
+import consts from '../../consts/consts'
 export interface Product {
     id: string;
     active: boolean;
@@ -25,14 +26,18 @@ export interface UpdateFiltersPayload {
 }
 
 interface Products {
+    isNewFetching: boolean;
     isFetching: boolean;
+    separatosCategory: any;
     products: Array<Product>;
     filters?: Filters;
 }
 
 export default {
     state: {
+        isNewFetching: false,
         isFetching: true,
+        separatosCategory: [],
         products: [],
         filters: {
             search: "",
@@ -40,10 +45,14 @@ export default {
             maxPrice: "50000",
             category: "all"
         } as Filters
-    },
+    } as Products,
     mutations: {
         updateProducts(state: Products, products: Array<Product>){
+            console.log("products", products)
             state.products = products
+        },
+        setCategory(state: Products, payload: any){
+            state.separatosCategory = payload
         },
         updateFilters(state: Products, payload: UpdateFiltersPayload){
             state.filters = {
@@ -56,22 +65,51 @@ export default {
         },
         changeFetchingStatus(state: Products, status: boolean){
             state.isFetching = status
+        },
+        changeNewFetchingStatus(state: Products, status: boolean){
+            state.isNewFetching = status
         }
     },
     actions: {
         async fetchPosts(context: any){
-            context.commit('changeFetchingStatus', true)  
-            console.log(context)
-            // const response = await fetch("./products.json")
+            // const defaultAdminStorage = localStorage.getItem(consts.defaultAdminStorage)
+            // const defaultUserStorage = localStorage.getItem(consts.defaultUserStorage)
+            // context.commit('changeFetchingStatus', true)
+            // context.commit('changeNewFetchingStatus', true) // TODO
+            // console.log(context)
             let url = Consts.products
             if(/admin/.test(window.location.pathname)){
+                // if(defaultAdminStorage){
+                //     context.commit('updateProducts', JSON.stringify(defaultAdminStorage))
+                // }else{
+                //     const defData = await fetch("./products.json")
+                //     const data = await defData.json()
+                //     context.commit('updateProducts', data.products)
+                // }
+                // context.commit('changeFetchingStatus', false) 
                 url = Consts.productsAll
             }
+            // else{
+            //     if(defaultUserStorage){
+            //         context.commit('updateProducts', JSON.stringify(defaultUserStorage))
+            //     }else{
+            //         const defData = await fetch("./products.json")
+            //         const data = await defData.json()
+            //         context.commit('updateProducts', data.products)
+            //     }
+            //     context.commit('changeFetchingStatus', false) 
+            // }
             const response = await fetch(url)
             const data = await response.json()
             console.log("products", data)
             context.commit('updateProducts', data)
             context.commit('changeFetchingStatus', false)   
+            // context.commit('changeNewFetchingStatus', false)
+            // if(url===Consts.productsAll){
+            //     localStorage.setItem(Consts.defaultAdminStorage, data)
+            // }else{
+            //     localStorage.setItem(Consts.defaultUserStorage, data)
+            // }
         },
 
         async deletePost(context: any, id: string){
@@ -99,27 +137,27 @@ export default {
 
         async addPost(context: any, product: Product){
             console.log(product)
-            const fd = new FormData()
-            console.log(product)
-            const date: Date = new Date()
-            const fileName = `${product.image.fileName}_${+date}`
+            // const fd = new FormData()
+            // console.log(product)
+            // const date: Date = new Date()
+            // const fileName = `${product.image.fileName}_${+date}`
 
-            fd.append("active", product.active.toString())
-            fd.append("name", product.name)
-            fd.append("image", product.image, fileName)
-            fd.append("price", product.price.toString())
-            fd.append("family", JSON.stringify(product.family))
-            fd.append("description", product.description)
-            fd.append("category", JSON.stringify(product.category))
+            // fd.append("active", product.active.toString())
+            // fd.append("name", product.name)
+            // fd.append("image", product.image, fileName)
+            // fd.append("price", product.price.toString())
+            // fd.append("family", JSON.stringify(product.family))
+            // fd.append("description", product.description)
+            // fd.append("category", JSON.stringify(product.category))
 
             try {
                 console.log(Consts.deleteProduct)
                 const response = await fetch(Consts.deleteProduct, {
                     method: "POST",
-                    // headers: { 
-                    //     'Content-Type': 'application/json' 
-                    // },
-                    body: fd
+                    headers: { 
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(product)
                 })
                 if(response.ok){
                     context.dispatch('fetchPosts')
@@ -136,29 +174,29 @@ export default {
 
         async updatePost(context: any, product: Product){
             console.log(product)
-            const fd = new FormData()
+            // const fd = new FormData()
             console.log(product)
             const date: Date = new Date()
             const fileName = `${product.image.fileName}_${+date}`
             
-            if(typeof product.image === "string"){
-                fd.append("id", product.id)
-                fd.append("active", product.active.toString())
-                fd.append("name", product.name)
-                fd.append("price", product.price.toString())
-                fd.append("family", JSON.stringify(product.family))
-                fd.append("description", product.description)
-                fd.append("category", JSON.stringify(product.category))
-            }else{
-                fd.append("id", product.id)
-                fd.append("active", product.active.toString())
-                fd.append("name", product.name)
-                fd.append("image", product.image, fileName)
-                fd.append("price", product.price.toString())
-                fd.append("family", JSON.stringify(product.family))
-                fd.append("description", product.description)
-                fd.append("category", JSON.stringify(product.category))
-            }
+            // if(typeof product.image === "string"){
+            //     fd.append("id", product.id)
+            //     fd.append("active", product.active.toString())
+            //     fd.append("name", product.name)
+            //     fd.append("price", product.price.toString())
+            //     fd.append("family", JSON.stringify(product.family))
+            //     fd.append("description", product.description)
+            //     fd.append("category", JSON.stringify(product.category))
+            // }else{
+            //     fd.append("id", product.id)
+            //     fd.append("active", product.active.toString())
+            //     fd.append("name", product.name)
+            //     fd.append("image", product.image, fileName)
+            //     fd.append("price", product.price.toString())
+            //     fd.append("family", JSON.stringify(product.family))
+            //     fd.append("description", product.description)
+            //     fd.append("category", JSON.stringify(product.category))
+            // }
 
 
 
@@ -166,8 +204,10 @@ export default {
                 console.log(Consts.deleteProduct)
                 const response = await fetch(Consts.deleteProduct, {
                     method: "PUT",
-
-                    body: fd
+                    headers: { 
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(product)
                 })
                 if(response.ok){
                     context.dispatch('fetchPosts')
@@ -184,6 +224,25 @@ export default {
 
         setFilters(context: any){
             context.commit('updateFilters')
+        },
+        async getCategory(context: any){
+            try {
+                console.log(Consts.category)
+                const response = await fetch(Consts.category)
+                if(response.ok){
+                    const data = await response.json()
+                    // context.dispatch('fetchPosts')
+                    context.commit("setCategory", data.body);
+                    // router.push({path: '/admin'})
+                    console.log("setCategory", data.body)
+                    
+                  }else{
+                    throw response
+                  } 
+                } catch (error) {
+                    console.log(error)
+                    // context.commit("setAlert", {value: `Не обновлено`, type: "danger"});
+                }         
         }
     },
 
@@ -197,6 +256,12 @@ export default {
         allFilters(state: Products){
             return state.filters;
         },
-        getProductById: (state: Products) => (id: string) => state.products.find((el: Product)=>el.id === id)
+        getSeparatosCategory(state: Products){
+            return state.separatosCategory
+        },
+        getProductById: (state: Products) => (id: string) => state.products.find((el: Product)=>el.id === id),
+        getNewLoader(state: Products){
+            return state.isNewFetching
+        }
     },
 }
