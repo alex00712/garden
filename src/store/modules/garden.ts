@@ -42,7 +42,7 @@ export default {
         filters: {
             search: "",
             minPrice: "0",
-            maxPrice: "50000",
+            maxPrice: "5000",
             category: "all"
         } as Filters
     } as Products,
