@@ -94,14 +94,14 @@
                             placeholder="0" 
                             @change="setFilters" 
                             :value="allFilters.minPrice"
-                            aria-label="Username" 
+                            aria-label="minPrice"
                             aria-describedby="basic-addon1">
                         <input 
                             name = "minPrice"
                             type="range" 
-                            step = "1" 
+                            step = "100"
                             min = "0" 
-                            max = "25000" 
+                            max = "2500"
                             class="form-control-range" 
                             @input="setFilters" 
                             :value="allFilters.minPrice">
@@ -118,14 +118,14 @@
                             placeholder="0" 
                             @change="setFilters" 
                             :value="allFilters.maxPrice"
-                            aria-label="Username" 
+                            aria-label="maxPrice"
                             aria-describedby="basic-addon1">
                         <input 
                             name = "maxPrice"
                             type="range" 
-                            step = "1" 
-                            min = "25000" 
-                            max = "50000" 
+                            step = "100"
+                            min = "2500"
+                            max = "5000"
                             class="form-control-range" 
                             @input="setFilters" 
                             :value="allFilters.maxPrice">
@@ -160,10 +160,10 @@
 
                         <div class="card d-flex flex-column justify-content-between my-card m-1"  >
                                 <img :src="loadImage(product.image)" class="card-img-top img " alt="..." @click="openCardInfo(product.id)">
-                                <div class="card-body ">
-                                    <p class = "font-weight-bold" >{{product.name}}</p>
+                                <div class="card-body product-card-body">
+                                    <p class = "font-weight-bold product-name" >{{product.name}}</p>
                                     <p class = "description"><small>{{product.description}}</small></p>
-                                    <p class="price" ><strong>Цена</strong> {{product.price}} р</p>
+                                    <p class="price"><strong>Цена</strong> {{product.price}} ₽</p>
                                 </div>
                                 <div v-if="!getNewLoader">
                                     <transition v-if="!isEdit" name="buttons" mode="out-in" >
@@ -182,7 +182,7 @@
 
                                         <div v-else key="notyet" class="d-flex flex-column m-1">
                                             <button style="visibility: hidden" class="btn btn-success mb-2" @click="buyNow(product)" >Купить <i class="fas fa-dollar-sign"></i></button>
-                                            <button class="btn btn-primary mb-2" @click="addNewCardPosition(product)">Добавить <i class="fas fa-shopping-cart"></i></button>
+                                            <button class="btn btn-outline-success mb-2" @click="addNewCardPosition(product)">Добавить <i class="fas fa-shopping-cart"></i></button>
                                         </div>
                                     </transition>  
 
@@ -407,7 +407,11 @@ export default defineComponent({
 </script>
 
 
-<style lang="css" scope > 
+<style lang="css" scope >
+    .product-card-body{
+        text-align: justify;
+    }
+
     .description{
         height: 150px;
         overflow-y: hidden;
@@ -419,8 +423,8 @@ export default defineComponent({
     }
     .img{
         max-width: 100%;
-        height: 150px;
-        object-fit: contain;
+        height: 230px;
+        object-fit: cover;
     }
     .section{
         text-align: left;
@@ -453,9 +457,18 @@ export default defineComponent({
         /* max-width: 150px;  */
         height: 100%; 
         margin: 0 auto;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    .my-card:hover{
+        transform: scale(1.02);
     }
     .price{
         font-size: large;
+    }
+
+    .product-name{
+        font-size:20px;
     }
     /* @media(min-width: 1440px){
         .my-card{
