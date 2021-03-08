@@ -4,7 +4,7 @@
             <div class = "row no-gutters">
                 <div class = "col-6 col-md-12 pad" >
                     <img class="img-custom" v-if="allCollage.topLeftImage" :src="allCollage.topLeftImage" alt="..."/>
-                    <img class="img-fluided" v-else src="https://thumb.tildacdn.com/tild3064-6266-4237-a265-303164373230/-/resize/500x400/-/format/webp/k175eye000257.jpg" alt="..."/>
+                    <img class="img-fluided" v-else src="img/1.jpg" alt="..."/>
                 </div>
 
                 <div class = "col-6 col-md-12 pad" >
