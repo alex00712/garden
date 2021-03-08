@@ -57,21 +57,97 @@
                   <label class="form-check-label" for="exampleCheck1">Активность</label>
                 </div>
                 
-                <div class="form-group text-left">
+                <!-- <div class="form-group text-left">
                     <label for="description">Описание</label>
-                    <input name="description" type="text" class="form-control" :class="{'is-invalid': errors.isDescriptionError}" id="pass" @input="inputChangeHandler" v-model="newProd.description" placeholder="Опишите товар">
+                    <input 
+                      name="description" 
+                      type="text" 
+                      class="form-control" 
+                      :class="{'is-invalid': errors.isDescriptionError}" 
+                      id="pass" 
+                      @input="inputChangeHandler" 
+                      v-model="newProd.description" 
+                      placeholder="Опишите товар"
+                    >
                     <div v-if="errors.isDescriptionError" class="invalid-feedback">
+                        Описание должно содержать хотя бы 5 символов
+                    </div> 
+                </div> -->
+
+                <div class="form-group text-left">
+                    <label for="description">Высота и ширина растения</label>
+                    <input 
+                      name="heigth" 
+                      type="text" 
+                      class="form-control" 
+                      :class="{'is-invalid': errors.isDescriptionHError}" 
+                      id="pass" 
+                      @input="inputChangeHandler" 
+                      v-model="newProd.description.heigth" 
+                      placeholder="Высота и ширина растения"
+                    >
+                    <div v-if="errors.isDescriptionHError" class="invalid-feedback">
                         Описание должно содержать хотя бы 5 символов
                     </div> 
                 </div>
 
-                <div class="form-group text-left">
+                <div class="mt-4 form-group text-left">
+                    <label for="description">Комментарий цветка/плода</label>
+                    <input 
+                      name="coment" 
+                      type="text" 
+                      class="form-control" 
+                      :class="{'is-invalid': errors.isDescriptionCError}" 
+                      id="pass" 
+                      @input="inputChangeHandler" 
+                      v-model="newProd.description.coment" 
+                      placeholder="Комментарий цветка/плода"
+                    >
+                    <div v-if="errors.isDescriptionCError" class="invalid-feedback">
+                        Описание должно содержать хотя бы 5 символов
+                    </div> 
+                </div>
+
+                <div class="mt-4 form-group text-left">
+                    <label for="description">Требования к освещенности</label>
+                    <input 
+                      name="light" 
+                      type="text" 
+                      class="form-control" 
+                      :class="{'is-invalid': errors.isDescriptionLError}" 
+                      id="pass" 
+                      @input="inputChangeHandler" 
+                      v-model="newProd.description.light" 
+                      placeholder="Требования к освещенности"
+                    >
+                    <div v-if="errors.isDescriptionLError" class="invalid-feedback">
+                        Описание должно содержать хотя бы 5 символов
+                    </div> 
+                </div>
+
+                <div class="mt-4 form-group text-left">
+                    <label for="description">Зимостойкость</label>
+                    <input 
+                      name="winter" 
+                      type="text" 
+                      class="form-control" 
+                      :class="{'is-invalid': errors.isDescriptionWError}" 
+                      id="pass" 
+                      @input="inputChangeHandler" 
+                      v-model="newProd.description.winter" 
+                      placeholder="Зимостойкость"
+                    >
+                    <div v-if="errors.isDescriptionWError" class="invalid-feedback">
+                        Описание должно содержать хотя бы 5 символов
+                    </div> 
+                </div>
+
+                <div class="mt-4 form-group text-left">
                     <label for="category">Категория</label>
                     <v-select v-model="newProd.category" @option:selected="setSelected" label="name" id="category" :options="categories"/>
                 </div>
-
                 
-                <div class="form-group text-left">
+                <div class="mt-4 form-group text-left">
                     <label for="category">Семейство</label>
                     <v-select v-model="newProd.family" @option:selected="setSelectedFamily" label="name" id="category" :options="families"/>
                 </div>
@@ -110,7 +186,7 @@ export default defineComponent({
       newProd: {
         active: true,
         category: {},
-        description: "",
+        description: {},
         family: {},
         image: "",
         name: "",
@@ -119,6 +195,10 @@ export default defineComponent({
       errors: {
         isNameError: false,
         isDescriptionError: false,
+        isDescriptionHError: false,
+        isDescriptionCError: false,
+        isDescriptionLError: false,
+        isDescriptionWError: false,
         isPriceError: false,
         isImageError: false, 
       },
@@ -175,6 +255,7 @@ export default defineComponent({
           const responce = await fetch(`${consts.poductById}/${id}`)
           if(responce.ok){
             const data = await responce.json();
+            data.description = JSON.parse(data.description)
             this.newProd = data
           }else{
             throw responce
@@ -216,7 +297,11 @@ export default defineComponent({
     addProduct(e){
       e.preventDefault()
       const {category, description, family, image, name, price} = this.newProd
-      if(!isAmptyObj(category) && description && !isAmptyObj(family) && image && name && price){
+      const {isDescriptionHError, isDescriptionCError, isDescriptionLError, isDescriptionWError} = this.errors
+
+      if(!isAmptyObj(category) && !isAmptyObj(description) && !isAmptyObj(family) && image && name && price 
+      && !isDescriptionHError && !isDescriptionCError && !isDescriptionLError && !isDescriptionWError){
+        this.newProd.description = JSON.stringify(this.newProd.description)
         this.$store.dispatch('addPost', this.newProd)
       }else{
         this.$store.commit("setAlert", {value: `Заполните все поля`, type: "warning"});
@@ -226,7 +311,11 @@ export default defineComponent({
     upDateProduct(e){
       e.preventDefault()
       const {category, description, family, image, name, price} = this.newProd
-      if(!isAmptyObj(category) && description && !isAmptyObj(family) && image && name && price){
+      const {isDescriptionHError, isDescriptionCError, isDescriptionLError, isDescriptionWError} = this.errors
+      
+      if(!isAmptyObj(category) && !isAmptyObj(description) && !isAmptyObj(family) && image && name && price 
+      && !isDescriptionHError && !isDescriptionCError && !isDescriptionLError && !isDescriptionWError){
+        this.newProd.description = JSON.stringify(this.newProd.description)
         this.$store.dispatch('updatePost', this.newProd)
       }else{
         this.$store.commit("setAlert", {value: `Заполните все поля`, type: "warning"});
@@ -235,18 +324,25 @@ export default defineComponent({
 
     setSelected(data){
         this.newProd.category = data
-        console.log(this.newProd)
+        // console.log(this.newProd)
     },
     setSelectedFamily(data){
       console.log(data)
     },
+
     inputChangeHandler(e){
       const {name, value} = e.target
-      this.newProd[name] = value
       this.validateInput(name, value)
+      if(name==='heigth' || name==='coment' || name==='light' || name==='winter'){
+        this.newProd.description[name] = value
+      }
+      this.newProd[name] = value
+      
+      // console.log(this.newProd)
       },
+
     validateInput(name, value){
-      console.log(name, value)
+      // console.log(name, value)
       switch(name){
         case 'name':
           if(value.length === 0){
@@ -262,13 +358,41 @@ export default defineComponent({
           this.errors.isDescriptionError = false
           break;
 
+          case 'heigth':
+            if(value.length < 5 ){
+              return this.errors.isDescriptionHError = true
+            }
+            this.errors.isDescriptionHError = false
+            break;
+
+          case 'coment':
+            if(value.length < 5 ){
+              return this.errors.isDescriptionCError = true
+            }
+            this.errors.isDescriptionCError = false
+            break;
+
+          case 'light':
+            if(value.length < 5 ){
+              return this.errors.isDescriptionLError = true
+            }
+            this.errors.isDescriptionLError = false
+            break;
+
+          case 'winter':
+            if(value.length < 5 ){
+              return this.errors.isDescriptionWError = true
+            }
+            this.errors.isDescriptionWError = false
+            break;
+
           case 'image':
             if(urlExp.test(value)){
               return this.errors.isImageError = false
-          }
-          this.newProd.image = ""
-          this.errors.isImageError = true
-          break;
+            }
+            this.newProd.image = ""
+            this.errors.isImageError = true
+            break;
 
           case 'price':
             if(value>0){

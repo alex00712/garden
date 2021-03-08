@@ -30,8 +30,12 @@
                         <div class="col-6 align-self-center">
                             <div class="card-body">
                                 <h5 class="card-title">{{position.name}}</h5>
-                                <p class="card-text">{{position.description}}</p>
-                                <p class="card-text"><small class="text-muted">Цена {{position.price}} р</small></p>
+                                <!-- <p class="card-text">{{position.description}}</p> -->
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Сумма <strong>{{position.price * position.count}} р</strong>
+                                    </small>
+                                </p>
                             </div>
                         </div>
 

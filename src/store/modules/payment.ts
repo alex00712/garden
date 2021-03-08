@@ -30,7 +30,7 @@ export interface Order{
 
 export default {
     state: {
-        isOpen: true,
+        isOpen: false,
         paymentData: {
             price: 0,
             address: "",

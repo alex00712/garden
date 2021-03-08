@@ -162,7 +162,12 @@
                                 <img :src="loadImage(product.image)" class="card-img-top img " alt="..." @click="openCardInfo(product.id)">
                                 <div class="card-body ">
                                     <p class = "font-weight-bold" >{{product.name}}</p>
-                                    <p class = "description"><small>{{product.description}}</small></p>
+                                    <div class = "description">
+                                        <p><small>{{product.description.heigth}}</small></p>
+                                        <p><small>{{product.description.coment}}</small></p>
+                                        <p><small>{{product.description.light}}</small></p>
+                                        <p><small>{{product.description.winter}}</small></p>
+                                    </div>
                                     <p class="price" ><strong>Цена</strong> {{product.price}} р</p>
                                 </div>
                                 <div v-if="!getNewLoader">

@@ -42,16 +42,31 @@ export default {
         filters: {
             search: "",
             minPrice: "0",
-            maxPrice: "50000",
+            maxPrice: "5000",
             category: "all"
         } as Filters
     } as Products,
     mutations: {
         updateProducts(state: Products, products: Array<Product>){
             console.log("products", products)
-            state.products = products
+
+            const PRODUCTS: Array<Product> = []
+
+            for(let i = 0; i < products.length; i++){
+                try {
+                    products[i].description = JSON.parse(products[i].description)
+                    PRODUCTS.push(products[i])
+                } catch (error) {
+                    console.warn("Неверный формат: ", products[i])
+                }
+            }
+            
+            state.products = PRODUCTS
+
+            // state.products = products
         },
         setCategory(state: Products, payload: any){
+            console.log('category', payload)
             state.separatosCategory = payload
         },
         updateFilters(state: Products, payload: UpdateFiltersPayload){

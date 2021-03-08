@@ -28,7 +28,11 @@
                             <img class="image" :src="loadImage(getPayment.product.image)" />
                         </div> 
                         <div class = "col-12 mt-4">
-                            {{getPayment.product.description}}
+                            <!-- {{getPayment.product.description}} -->
+                            <p><small>{{getPayment.product.description.heigth}}</small></p>
+                            <p><small>{{getPayment.product.description.coment}}</small></p>
+                            <p><small>{{getPayment.product.description.light}}</small></p>
+                            <p><small>{{getPayment.product.description.winter}}</small></p>
                         </div>
                         <div class = "col-12 mt-4">
                             <strong>Цена: {{getPayment.product.price}} рублей</strong>
