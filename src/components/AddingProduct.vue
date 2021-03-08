@@ -74,73 +74,13 @@
                     </div> 
                 </div> -->
 
-                <div class="form-group text-left">
-                    <label for="description">Высота и ширина растения</label>
-                    <input 
-                      name="heigth" 
-                      type="text" 
-                      class="form-control" 
-                      :class="{'is-invalid': errors.isDescriptionHError}" 
-                      id="pass" 
-                      @input="inputChangeHandler" 
-                      v-model="newProd.description.heigth" 
-                      placeholder="Высота и ширина растения"
-                    >
-                    <div v-if="errors.isDescriptionHError" class="invalid-feedback">
-                        Описание должно содержать хотя бы 5 символов
-                    </div> 
-                </div>
+                <vue-editor v-model="newProd.description" ref="markdownEditor"></vue-editor>
+                <!-- <editor v-model="textEditor" /> -->
 
-                <div class="mt-4 form-group text-left">
-                    <label for="description">Комментарий цветка/плода</label>
-                    <input 
-                      name="coment" 
-                      type="text" 
-                      class="form-control" 
-                      :class="{'is-invalid': errors.isDescriptionCError}" 
-                      id="pass" 
-                      @input="inputChangeHandler" 
-                      v-model="newProd.description.coment" 
-                      placeholder="Комментарий цветка/плода"
-                    >
-                    <div v-if="errors.isDescriptionCError" class="invalid-feedback">
-                        Описание должно содержать хотя бы 5 символов
-                    </div> 
-                </div>
+                <!-- <vue-markdown name="12"> это слот по умолчанию </vue-markdown> -->
+                <!-- <VueMarkdown>adasda</VueMarkdown> -->
 
-                <div class="mt-4 form-group text-left">
-                    <label for="description">Требования к освещенности</label>
-                    <input 
-                      name="light" 
-                      type="text" 
-                      class="form-control" 
-                      :class="{'is-invalid': errors.isDescriptionLError}" 
-                      id="pass" 
-                      @input="inputChangeHandler" 
-                      v-model="newProd.description.light" 
-                      placeholder="Требования к освещенности"
-                    >
-                    <div v-if="errors.isDescriptionLError" class="invalid-feedback">
-                        Описание должно содержать хотя бы 5 символов
-                    </div> 
-                </div>
-
-                <div class="mt-4 form-group text-left">
-                    <label for="description">Зимостойкость</label>
-                    <input 
-                      name="winter" 
-                      type="text" 
-                      class="form-control" 
-                      :class="{'is-invalid': errors.isDescriptionWError}" 
-                      id="pass" 
-                      @input="inputChangeHandler" 
-                      v-model="newProd.description.winter" 
-                      placeholder="Зимостойкость"
-                    >
-                    <div v-if="errors.isDescriptionWError" class="invalid-feedback">
-                        Описание должно содержать хотя бы 5 символов
-                    </div> 
-                </div>
+                <!-- <v-editor ref="editor" :config="config" :initialized="onInitialized"></v-editor> -->
 
                 <div class="mt-4 form-group text-left">
                     <label for="category">Категория</label>
@@ -165,8 +105,12 @@
 import consts from '@/consts/consts'
 import { defineComponent } from 'vue';
 import vSelect from '../../node_modules/vue-select/src/index.js';
+// import VueMarkdown from 'vue-markdown'
 import isAmptyObj from '../utils/isAmptyObj'
+import { VueEditor } from "vue3-editor";
+
 const urlExp = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/)
+
 
 export default defineComponent({
     props: {
@@ -176,7 +120,9 @@ export default defineComponent({
         },
     },
     components: {
-        'v-select': vSelect
+        'v-select': vSelect,
+        VueEditor
+        // VueMarkdown
     },
   name: 'AddingProduct',
   data(){
@@ -186,7 +132,7 @@ export default defineComponent({
       newProd: {
         active: true,
         category: {},
-        description: {},
+        description: "",
         family: {},
         image: "",
         name: "",
@@ -221,6 +167,9 @@ export default defineComponent({
     }
   },
   methods: {
+    changeDescription(e){
+      console.log(e)
+    },
     checkFluency(e){
       console.log(e.target.checked)
       this.newProd.active = e.target.checked
@@ -255,7 +204,7 @@ export default defineComponent({
           const responce = await fetch(`${consts.poductById}/${id}`)
           if(responce.ok){
             const data = await responce.json();
-            data.description = JSON.parse(data.description)
+            // data.description = JSON.parse(data.description)
             this.newProd = data
           }else{
             throw responce
@@ -297,11 +246,11 @@ export default defineComponent({
     addProduct(e){
       e.preventDefault()
       const {category, description, family, image, name, price} = this.newProd
-      const {isDescriptionHError, isDescriptionCError, isDescriptionLError, isDescriptionWError} = this.errors
 
-      if(!isAmptyObj(category) && !isAmptyObj(description) && !isAmptyObj(family) && image && name && price 
-      && !isDescriptionHError && !isDescriptionCError && !isDescriptionLError && !isDescriptionWError){
-        this.newProd.description = JSON.stringify(this.newProd.description)
+      const NewDescription = this.$refs.markdownEditor.modelValue
+
+      if(!isAmptyObj(category) && description && !isAmptyObj(family) && image && name && price){
+        this.newProd.description = NewDescription
         this.$store.dispatch('addPost', this.newProd)
       }else{
         this.$store.commit("setAlert", {value: `Заполните все поля`, type: "warning"});
@@ -311,11 +260,11 @@ export default defineComponent({
     upDateProduct(e){
       e.preventDefault()
       const {category, description, family, image, name, price} = this.newProd
-      const {isDescriptionHError, isDescriptionCError, isDescriptionLError, isDescriptionWError} = this.errors
+
+      const NewDescription = this.$refs.markdownEditor.modelValue
       
-      if(!isAmptyObj(category) && !isAmptyObj(description) && !isAmptyObj(family) && image && name && price 
-      && !isDescriptionHError && !isDescriptionCError && !isDescriptionLError && !isDescriptionWError){
-        this.newProd.description = JSON.stringify(this.newProd.description)
+      if(!isAmptyObj(category) && description && !isAmptyObj(family) && image && name && price){
+        this.newProd.description = NewDescription
         this.$store.dispatch('updatePost', this.newProd)
       }else{
         this.$store.commit("setAlert", {value: `Заполните все поля`, type: "warning"});

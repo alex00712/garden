@@ -50,20 +50,20 @@ export default {
         updateProducts(state: Products, products: Array<Product>){
             console.log("products", products)
 
-            const PRODUCTS: Array<Product> = []
+            // const PRODUCTS: Array<Product> = []
 
-            for(let i = 0; i < products.length; i++){
-                try {
-                    products[i].description = JSON.parse(products[i].description)
-                    PRODUCTS.push(products[i])
-                } catch (error) {
-                    console.warn("Неверный формат: ", products[i])
-                }
-            }
+            // for(let i = 0; i < products.length; i++){
+            //     try {
+            //         products[i].description = JSON.parse(products[i].description)
+            //         PRODUCTS.push(products[i])
+            //     } catch (error) {
+            //         console.warn("Неверный формат: ", products[i])
+            //     }
+            // }
             
-            state.products = PRODUCTS
+            // state.products = PRODUCTS
 
-            // state.products = products
+            state.products = products
         },
         setCategory(state: Products, payload: any){
             console.log('category', payload)

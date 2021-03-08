@@ -3,6 +3,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+// import Editor from 'vue-editor-js'
 // import * as VueLazyload from 'vue-lazyload'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // import eventHub from './eventHub'
@@ -31,6 +32,7 @@ const app = createApp(App)
     //   })
     // .use(VueMaterial)
     // .use(VueTelInput)
+    // .use(Editor)
     .use(store)
     .use(router)
     .mount('#app')

@@ -27,12 +27,8 @@
                         <div class = "col-12">
                             <img class="image" :src="loadImage(getPayment.product.image)" />
                         </div> 
-                        <div class = "col-12 mt-4">
-                            <!-- {{getPayment.product.description}} -->
-                            <p><small>{{getPayment.product.description.heigth}}</small></p>
-                            <p><small>{{getPayment.product.description.coment}}</small></p>
-                            <p><small>{{getPayment.product.description.light}}</small></p>
-                            <p><small>{{getPayment.product.description.winter}}</small></p>
+                        <div class = "col-12 mt-4" v-html="getPayment.product.description">
+                            
                         </div>
                         <div class = "col-12 mt-4">
                             <strong>Цена: {{getPayment.product.price}} рублей</strong>
@@ -53,7 +49,10 @@
     import {Product} from '../store/modules/garden'
     import {PayoadForCount} from '../store/modules/moduleWindow'
     const urlExp = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/)
-
+// <p><small>{{getPayment.product.description.heigth}}</small></p>
+//                             <p><small>{{getPayment.product.description.coment}}</small></p>
+//                             <p><small>{{getPayment.product.description.light}}</small></p>
+//                             <p><small>{{getPayment.product.description.winter}}</small></p>
     export default defineComponent({
         data(){
             return {

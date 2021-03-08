@@ -163,11 +163,8 @@
 
                                 <div class="card-body product-card-body">
                                     <p class = "font-weight-bold product-name" >{{product.name}}</p>
-                                    <div class = "description">
-                                        <p><small>{{product.description.heigth}}</small></p>
-                                        <p><small>{{product.description.coment}}</small></p>
-                                        <p><small>{{product.description.light}}</small></p>
-                                        <p><small>{{product.description.winter}}</small></p>
+                                    <div class = "description" v-html="product.description">
+                                        
                                     </div>
                                     <p class="price"><strong>Цена</strong> {{product.price}} ₽</p>
 
