@@ -25,7 +25,7 @@
             </div>
         </div>
 
-    <div class="row">
+    <div class="row bottom_class">
         <div class="col-12 col-md-3 col-xl-2">
             <div class="row">
                 <div class="col-12">
@@ -329,6 +329,7 @@ export default defineComponent({
         },
         setPaginationNumber(number: number){
             this.paginationNamber = number
+            this.setFocus()
         },
         updateCardPosition(card: CardPosition, operation: Operation){
             // console.log(card, operation)
@@ -488,6 +489,9 @@ export default defineComponent({
             margin: 0 auto;
         }
     } */
+    .bottom_class{
+        padding-bottom: 50px;
+    }
     @media(max-width: 768px){
         .filters{
             display: none !important;

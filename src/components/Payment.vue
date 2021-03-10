@@ -1,6 +1,7 @@
 <template>
     <transition name="payment">
         <div v-if="getPayment.isOpen" class="modal" style="display: block">
+            <div class="shadow" ></div>
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -155,5 +156,14 @@
     .payment-enter-from, .payment-leave-to {
         transform: translate(0, -100%);
         opacity: 0;
+    }
+    .shadow{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: black;
+        opacity: .3;
     }
 </style>
