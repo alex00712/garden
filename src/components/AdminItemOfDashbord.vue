@@ -9,7 +9,11 @@
             </small>
     </div>
     <p class="mb-1">Телефон {{item.clientPhoneNumber}}</p>
-    <small>Общая стоимость {{item.price}}</small><br/>
+    <div v-if="item.comment">
+        <small><u>Коментарий к заказу :</u></small>
+        <p><q>{{item.comment}}</q></p>
+    </div>
+    <strong>Общая стоимость {{item.price}}</strong><br/>
     <small>Товары: </small>
     <i v-if="isShowProduct" @click="changeVisible" class="far fa-eye-slash"></i>
     <i v-else @click="changeVisible" class="far fa-eye"></i>
@@ -21,6 +25,7 @@
             </li>
         </ul>
     </transition>
+    
 </template>
 
 <script>
