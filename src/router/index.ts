@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 import Admin from '../views/Admin.vue'
+import Delivery from '../views/Delivery.vue'
 import AddingProduct from '../components/AddingProduct.vue'
 import ProductsVuew from "../views/ProductsVuew.vue"
 import AdminDashbord from '../components/AdminDashbord.vue'
@@ -74,6 +75,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/products',
     name: 'ProductsVuew',
     component: ProductsVuew
+  },
+  {
+    path: '/delivery',
+    name: 'Delivery',
+    component: Delivery
   },
   {
     path: '/cart',

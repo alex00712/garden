@@ -11,7 +11,7 @@ import { defineComponent } from 'vue';
 
 
 import Header from '@/components/Header.vue'; // @ is an alias to /src
-import Cart from '@/components/Cart.vue'
+import Cart from '@/components/CartTable.vue'
 import Payment from '@/components/Payment.vue';
 
 export default defineComponent({

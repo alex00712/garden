@@ -10,7 +10,7 @@
         <div class = "col-12 col-md-5 offset-md-1 text-left contacts">
             <div class = "contacts__cont">
                 <p>+7 925 751 66 42</p>
-                <p>hello@greenland.ru</p>
+                <p>info@green-land-store.ru</p>
             </div>
             <div class = "contacts__adr" >
                 <p>Москва, Тверская 1</p>
