@@ -42,7 +42,9 @@
                         </li>
                         <li
                                 v-for="item in getSeparatosCategory"
+
                                 class="nav-item d-flex justify-content-between align-items-center text-left"
+
                                 :key="item.id"
                         >
                             <a class="nav-link text-dark font-weight-bold cursor-pointer" :name="JSON.stringify(item)"
