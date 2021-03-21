@@ -9,7 +9,8 @@ export interface Product {
     price: number;
     image: any;
     description: any;
-    category: "all" | "veg_seeds" | "berry_seeds" | "flower_seeds" | "house_flower_seeds" | "seedlings";
+    // category: "all" | "veg_seeds" | "berry_seeds" | "flower_seeds" | "house_flower_seeds" | "seedlings";
+    category: {id: number; name: string; childCategory: any};
     family: any;
 }
 

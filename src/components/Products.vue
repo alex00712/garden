@@ -43,13 +43,54 @@
                         <li
                                 v-for="item in getSeparatosCategory"
 
-                                class="nav-item d-flex justify-content-between align-items-center text-left"
+                                class="nav-item  text-left"
 
                                 :key="item.id"
                         >
+                        <div class="d-flex justify-content-between align-items-center">
                             <a class="nav-link text-dark font-weight-bold cursor-pointer" :name="JSON.stringify(item)"
                                @click="handleChange">{{item.name}}</a>
-                            <span v-if="allFilters.category===JSON.stringify(item)" class="badge badge-success">{{notFull.totalAmount.length}}</span>
+                            <span v-if="allFilters.category===JSON.stringify(item)" class="badge badge-success">{{notFull.totalAmount.length}}</span><br/>
+                        </div> 
+
+                            <div class="ml-2" v-if="item.childCategory!==null">
+                                <ul class="nav flex-row justify-content-center flex-md-column align-items-start fo">
+                                    <li class="d-flex justify-content-between align-items-center">
+                                        <a  style="font-size: 12px"
+                                            class="nav-link text-dark font-weight-bold cursor-pointer" 
+                                            :name="JSON.stringify(item.childCategory)"
+                                            @click="handleChange"
+                                        >
+                                            {{item.childCategory.name}}
+                                        </a>
+
+                                        <small>
+                                        <span 
+                                            v-if="allFilters.category===JSON.stringify(item.childCategory)" 
+                                            class="badge badge-success"
+                                        >
+                                            {{notFull.totalAmount.length}}
+                                        </span>
+                                        </small>
+
+                                    </li>
+                                </ul> 
+
+                                <!-- <ul class="nav flex-row justify-content-center flex-md-column align-items-start"> -->
+                                    <!-- <li
+                                            v-for="childItem in item.childCategory"
+                                            class="nav-item d-flex justify-content-between align-items-center text-left"
+                                            :key="childItem.id"
+                                    >
+                                        <a class="nav-link text-dark font-weight-bold cursor-pointer" :name="JSON.stringify(childItem.name)"
+                                        @click="handleChange">{{childItem.name}}</a>
+                                        <span v-if="allFilters.category===JSON.stringify(childItem)" class="badge badge-success">{{notFull.totalAmount.length}}</span>
+
+                                    </li> -->
+
+                                <!-- </ul> -->
+
+                            </div>
                         </li>
 
                         <!-- <li class="nav-item d-flex justify-content-between align-items-center">
@@ -311,7 +352,14 @@
 
                 let paginationNamber = this.paginationNamber
 
-                const newTotal: Array<Product> = totalAmount.filter(el => searchCompare(el.name, filters.search) && el.price > filters.minPrice && el.price < filters.maxPrice && (filters.category !== "all" ? JSON.stringify(el.category) === filters.category : true))
+                const newTotal: Array<Product> = totalAmount.filter(el => 
+                    searchCompare(el.name, filters.search) && 
+                    el.price > filters.minPrice && 
+                    el.price < filters.maxPrice && 
+                    (filters.category !== "all" ? 
+                        (JSON.stringify(el.category) === filters.category || JSON.stringify(el.category.childCategory) === filters.category)
+                        : true
+                    ))
 
                 const amuuntOfCeilPagination: Array<number> = new Array(Math.ceil(newTotal.length / this.amount))
                 for (let i = 0; i < amuuntOfCeilPagination.length; i++) {
@@ -403,6 +451,7 @@
             },
 
             handleChange(e: any) {
+                console.log(e.target)
                 this.$store.commit("updateFilters", {name: "category", value: e.target.name});
                 console.log(this.$store)
             },
