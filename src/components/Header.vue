@@ -21,15 +21,15 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
                             <a v-if="catalog" class="nav-link" @click="goTo(catalog)">Каталог<span class="sr-only">(current)</span></a>
-                            <a v-else class="nav-link" href="#about">Каталог</a>
+                            <a v-else class="nav-link" href="/#about">Каталог</a>
                         </li>
                         <li class="nav-item">
                             <a v-if="about" class="nav-link" @click="goTo(about)">О нас</a>
                             <a v-else class="nav-link" href="#about">О нас</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a v-if="contacts" class="nav-link" @click="goTo(contacts)">Доставка</a>
-                            <a v-else class="nav-link" href="#contacts">Доставка</a>
+                            <a v-if="delivery" class="nav-link" @click="goTo(delivery)">Доставка</a>
+                            <a v-else class="nav-link" href="delivery">Доставка</a>
                             <!-- <router-link class="nav-link" href="#contacts">Доставка</router-link> -->
                         </li>
                         <li class="nav-item">
@@ -56,7 +56,7 @@
     import {defineComponent} from 'vue';
 
     export default defineComponent({
-        props: ['contacts', 'about', 'catalog'],
+        props: ['contacts', 'about', 'catalog', 'delivery'],
         name: 'Header',
         data() {
             return {

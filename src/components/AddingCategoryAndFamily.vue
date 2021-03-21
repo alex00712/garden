@@ -19,6 +19,11 @@
                             <div v-if="isNameError" class="invalid-feedback">Это поле должно быть заполненым</div>
                         </div>
 
+                        <div v-if="title!=='Семейство'" class="form-group">
+                            <label for="exampleInputEmail1">Название подкатегории</label><br/>
+                            <input name="precategory" class="form-control" type="text" @input="changeHandler" v-model="precategory" />
+                        </div>
+
                         <div v-if="title==='Семейство'" class="form-group">
                             <label for="exampleInputEmail1">Описание</label><br/>
                             <input :class="{'is-invalid': isDesError}" class="form-control" name="description" type="text" @input="changeHandler" v-model="description" />
@@ -28,7 +33,6 @@
                 </div>
 
                 <div class="modal-footer">
-                    
                     <button v-if="Object.values(edition).length!==0" @click="update" type="button" class="btn btn-success">Сохранить</button>
                     <button v-else @click="add" type="button" class="btn btn-primary">Создать</button>
                 </div>
@@ -70,6 +74,7 @@
             close(){
                 this.name = ""
                 this.description = ""
+                this.precategory = ""
                 this.$emit('close')
             },
             changeHandler(e){
@@ -88,6 +93,9 @@
                         this.$data.isNameError = false;
                         break;
 
+                    case 'precategory':
+                        return true;                     
+
                     case 'description':
                         if(value.length === 0){
                             return this.$data.isDesError = true;
@@ -99,12 +107,12 @@
 
             async update(){
                 let url = consts.deleteCategory
-                let body = {id: this.edition.id, name: this.$data.name}
+                let body = {id: this.edition.id, childCategory: this.$data.precategory, name: this.$data.name}
                 if(this.$props.title==='Семейство'){
                     url = consts.deleteFamily
                     body = {id: this.edition.id, name: this.$data.name, description: this.$data.description}
                 }
-                console.log(body)
+                console.log(JSON.stringify(body))
                 const V = Object.values(body).includes("")
 
                 if(!V){
@@ -131,12 +139,12 @@
 
             async add(){
                 let url = consts.deleteCategory
-                let body = {name: this.$data.name}
+                let body = {name: this.$data.name, childCategory: {id : 84}}
                 if(this.$props.title==='Семейство'){
                     url = consts.deleteFamily
                     body = {name: this.$data.name, description: this.$data.description}
                 }
-                console.log(body)
+                console.log(JSON.stringify(body))
                 const V = Object.values(body).includes("")
 
                 if(!V){

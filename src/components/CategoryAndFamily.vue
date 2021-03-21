@@ -16,7 +16,11 @@
             <h5>Категории</h5>
             <transition-group name="flip-list" class = "list-group" tag="ul">
                 <li v-for="item in categories" class="list-group-item d-flex justify-content-between" :key="item.id">
-                    {{item.name}}
+                    <div class="text-left">
+                        <p style="margin-bottom: 0" >{{item.name}}</p>
+                        <p v-if="item.childCategory"><small>- <u>{{item.childCategory.name}}</u></small></p>
+                    </div>
+
                     <div>
                         <i @click="editCategory(item.id)" class="changeIcon fas fa-cog"></i>
                         <i @click="deleteCategory(item.id)" class="deleteIcon far fa-trash-alt"></i>
