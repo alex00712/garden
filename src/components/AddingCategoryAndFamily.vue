@@ -21,7 +21,8 @@
 
                         <div v-if="title!=='Семейство'" class="form-group">
                             <label for="exampleInputEmail1">Название подкатегории</label><br/>
-                            <input name="precategory" class="form-control" type="text" @input="changeHandler" v-model="precategory" />
+                            <!-- <input name="precategory" class="form-control" type="text" @input="changeHandler" v-model="precategory" /> -->
+                            <v-select v-model="precategory" @option:selected="setSelectedCategory" label="name" id="category" :options="categories"/>
                         </div>
 
                         <div v-if="title==='Семейство'" class="form-group">
@@ -44,15 +45,21 @@
 
 <script>
     import { defineComponent } from 'vue';
+    import vSelect from '../../node_modules/vue-select/src/index.js';
     import consts from '../consts/consts'
     export default defineComponent({
         data(){
             return {
                 name: '',
                 description: '',
+                precategory: '',
+                categories: [],
                 isNameError: false,
                 isDesError: false
             }
+        },
+        components: {
+            'v-select': vSelect,
         },
         props: {
             title: {
@@ -64,11 +71,16 @@
         },
         mounted(){
             if(this.edition){
+                console.log(this.edition)
+                if(this.edition.childCategory){
+                    this.$data.precategory = this.edition.childCategory
+                }
                 this.name = this.edition.name
                 if(this.title==="Семейство"){
                     this.description = this.edition.description
                 }
             }
+            this.loadCategories()
         },
         methods: {
             close(){
@@ -76,6 +88,25 @@
                 this.description = ""
                 this.precategory = ""
                 this.$emit('close')
+            },
+            setSelectedCategory(data){
+                console.log(data)
+                this.$data.precategory = data
+            },
+            async loadCategories(){
+                try {
+                    const response = await fetch(consts.category)
+                    if(response.ok){
+                        const data = await response.json();
+                        this.$data.categories = data.body
+                        console.log(data.body)
+                    }else{
+                        throw response
+                    } 
+                    } catch (error) {
+                        console.log(error)
+                        this.$store.commit("setAlert", {value: `Не могу загрузить категории`, type: "danger"});
+                }
             },
             changeHandler(e){
                 const {name, value} = e.target
@@ -107,7 +138,12 @@
 
             async update(){
                 let url = consts.deleteCategory
-                let body = {id: this.edition.id, childCategory: this.$data.precategory, name: this.$data.name}
+                let body = {id: this.edition.id, name: this.$data.name}
+
+                if(this.$data.precategory){
+                    body.childCategory = this.$data.precategory
+                }
+
                 if(this.$props.title==='Семейство'){
                     url = consts.deleteFamily
                     body = {id: this.edition.id, name: this.$data.name, description: this.$data.description}
@@ -139,15 +175,22 @@
 
             async add(){
                 let url = consts.deleteCategory
-                let body = {name: this.$data.name, childCategory: {id : 84}}
+                let body = {name: this.$data.name}
+
+                if(this.$data.precategory){
+                    console.log(this.$data.precategory)
+                    body.childCategory = {id: this.$data.precategory.id}
+                }
+
                 if(this.$props.title==='Семейство'){
                     url = consts.deleteFamily
                     body = {name: this.$data.name, description: this.$data.description}
                 }
-                console.log(JSON.stringify(body))
+
                 const V = Object.values(body).includes("")
 
                 if(!V){
+                    
                     try {
                         const response = await fetch(url, {
                             method: "POST",
@@ -165,6 +208,7 @@
                         console.log(error)
                             this.$store.commit("setAlert", {value: `Не могу добавить`, type: "danger"});
                         }
+
                 }
 
             }
