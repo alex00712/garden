@@ -244,7 +244,7 @@ export default {
         async getCategory(context: any){
             try {
                 console.log(Consts.allCategory)
-                const response = await fetch(Consts.allCategory)
+                const response = await fetch(Consts.category)
                 if(response.ok){
                     const data = await response.json()
                     console.log(data)
