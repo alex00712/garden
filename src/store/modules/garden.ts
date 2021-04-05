@@ -243,10 +243,11 @@ export default {
         },
         async getCategory(context: any){
             try {
-                console.log(Consts.category)
-                const response = await fetch(Consts.category)
+                console.log(Consts.allCategory)
+                const response = await fetch(Consts.allCategory)
                 if(response.ok){
                     const data = await response.json()
+                    console.log(data)
                     // context.dispatch('fetchPosts')
                     context.commit("setCategory", data.body);
                     // router.push({path: '/admin'})

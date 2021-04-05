@@ -153,9 +153,10 @@
             },
                 async loadCategories(){
                     try {
-                            const response = await fetch(consts.category)
+                            const response = await fetch(consts.allCategory)
                             if(response.ok){
                                 const data = await response.json();
+                                console.log(data.body)
                                 this.$data.categories = data.body
                             }else{
                                 throw response
@@ -170,6 +171,7 @@
                         const response = await fetch(consts.family)
                         if(response.ok){
                             const data = await response.json();
+                            console.log(data.body)
                             this.$data.families = data.body
                         }else{
                             throw response

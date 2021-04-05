@@ -175,11 +175,11 @@
 
             async add(){
                 let url = consts.deleteCategory
-                let body = {name: this.$data.name}
+                let body = {name: this.$data.name, parentCategory: null}
 
                 if(this.$data.precategory){
                     console.log(this.$data.precategory)
-                    body.childCategory = {id: this.$data.precategory.id}
+                    body.parentCategory = {id: this.$data.precategory.id}
                 }
 
                 if(this.$props.title==='Семейство'){

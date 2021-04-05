@@ -53,7 +53,7 @@
                             <span v-if="allFilters.category===JSON.stringify(item)" class="badge badge-success">{{notFull.totalAmount.length}}</span><br/>
                         </div> 
 
-                            <div class="ml-2" v-if="item.childCategory!==null">
+                            <!-- <div class="ml-2" v-if="item.childCategory!==null">
                                 <ul class="nav flex-row justify-content-center flex-md-column align-items-start fo">
                                     <li class="d-flex justify-content-between align-items-center">
                                         <a  style="font-size: 12px"
@@ -74,7 +74,7 @@
                                         </small>
 
                                     </li>
-                                </ul> 
+                                </ul>  -->
 
                                 <!-- <ul class="nav flex-row justify-content-center flex-md-column align-items-start"> -->
                                     <!-- <li
@@ -90,7 +90,7 @@
 
                                 <!-- </ul> -->
 
-                            </div>
+                            <!-- </div> -->
                         </li>
 
                         <!-- <li class="nav-item d-flex justify-content-between align-items-center">

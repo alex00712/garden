@@ -6,6 +6,7 @@ interface Consts {
 
     //redact
     category: string;
+    allCategory: string;
     family: string;
     deleteProduct: string;
     poductById: string;
@@ -40,6 +41,7 @@ const consts: Consts = {
     login: "https://greenisland.herokuapp.com/login",
 
     category: "https://greenisland.herokuapp.com/category",
+    allCategory: "https://greenisland.herokuapp.com/getAllCategory",
     family: "https://greenisland.herokuapp.com/family",
     deleteProduct: "https://greenisland.herokuapp.com/admin/product",
     poductById: "https://greenisland.herokuapp.com/product",
